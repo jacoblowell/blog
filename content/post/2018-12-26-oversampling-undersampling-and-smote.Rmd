@@ -16,9 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-```{r , echo=FALSE}
+```{r , include=FALSE}
 library(tidyverse)
 lgd <- read_csv("lgd.csv")
+
+hmeq <- read_csv("hmeq.csv")
 #creditcard <- read_csv("creditcard.csv")
 #remove(creditcard)
 prop.table(table(lgd$event,lgd$purpose1))
@@ -28,6 +30,12 @@ table(lgd$event)
 
 
 ```{r}
-knitr::kable(lgd[2:5 , 1:6])
+table(lgd$event,lgd$purpose1)
+
+prop.table(table(lgd$event))
+
+
+table(hmeq$BAD)
+
 ```
 

@@ -1,7 +1,7 @@
 +++
 title = "This project"
 description = "Description of project."
-date = 2018-12-26T02:13:50Z
+date = 2018-12-26
 author = "My name"
 +++
 
