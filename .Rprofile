@@ -1,1 +1,1 @@
-options(blogdown.ext = ".Rmd", blogdown.author = "Jacob Lowell")
+options(blogdown.ext = ".Rmd", blogdown.author = "Jacob Lowell" ,servr.daemon = TRUE)

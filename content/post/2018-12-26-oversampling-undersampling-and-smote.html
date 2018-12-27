@@ -10,76 +10,16 @@ description: ''
 
 
 
-<pre><code>## -- Attaching packages ----------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
-<pre><code>## v ggplot2 3.0.0     v purrr   0.2.4
-## v tibble  1.4.2     v dplyr   0.7.5
-## v tidyr   0.8.1     v stringr 1.3.1
-## v readr   1.1.1     v forcats 0.3.0</code></pre>
-<pre><code>## -- Conflicts -------------------------------------------------------------- tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   LTV = col_double(),
-##   Recovery_rate = col_double(),
-##   lgd_time = col_double(),
-##   y_logistic = col_double(),
-##   lnrr = col_double(),
-##   Y_probit = col_double(),
-##   purpose1 = col_integer(),
-##   event = col_integer()
-## )</code></pre>
+<pre class="r"><code>table(lgd$event,lgd$purpose1)</code></pre>
 <pre><code>##    
-##               0           1
-##   0 0.276620825 0.009430255
-##   1 0.650687623 0.063261297</code></pre>
+##        0    1
+##   0  704   24
+##   1 1656  161</code></pre>
+<pre class="r"><code>prop.table(table(lgd$event))</code></pre>
+<pre><code>## 
+##         0         1 
+## 0.2860511 0.7139489</code></pre>
+<pre class="r"><code>table(hmeq$BAD)</code></pre>
 <pre><code>## 
 ##    0    1 
-##  728 1817</code></pre>
-<pre class="r"><code>knitr::kable(lgd[2:5 , 1:6])</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">LTV</th>
-<th align="right">Recovery_rate</th>
-<th align="right">lgd_time</th>
-<th align="right">y_logistic</th>
-<th align="right">lnrr</th>
-<th align="right">Y_probit</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">0.2140781</td>
-<td align="right">0.7800841</td>
-<td align="right">0.2199159</td>
-<td align="right">-1.2661566</td>
-<td align="right">-0.2483535</td>
-<td align="right">-0.7724773</td>
-</tr>
-<tr class="even">
-<td align="right">0.2140781</td>
-<td align="right">0.7022869</td>
-<td align="right">0.2977131</td>
-<td align="right">-0.8582118</td>
-<td align="right">-0.3534132</td>
-<td align="right">-0.5309894</td>
-</tr>
-<tr class="odd">
-<td align="right">0.2140781</td>
-<td align="right">0.7539889</td>
-<td align="right">0.2460111</td>
-<td align="right">-1.1200010</td>
-<td align="right">-0.2823776</td>
-<td align="right">-0.6870961</td>
-</tr>
-<tr class="even">
-<td align="right">0.2140781</td>
-<td align="right">0.8028126</td>
-<td align="right">0.1971874</td>
-<td align="right">-1.4039668</td>
-<td align="right">-0.2196340</td>
-<td align="right">-0.8517105</td>
-</tr>
-</tbody>
-</table>
+## 4771 1189</code></pre>
