@@ -1,0 +1,33 @@
+---
+title: Oversampling, Undersampling and SMOTE
+author: Jacob Lowell
+date: '2018-12-26'
+slug: oversampling-undersampling-and-smote
+categories: []
+tags: ["Course Imbalance"]
+description: ''
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r , echo=FALSE}
+library(tidyverse)
+lgd <- read_csv("lgd.csv")
+#creditcard <- read_csv("creditcard.csv")
+#remove(creditcard)
+prop.table(table(lgd$event,lgd$purpose1))
+
+table(lgd$event)
+```
+
+
+```{r}
+knitr::kable(lgd[2:5 , 1:6])
+```
+
