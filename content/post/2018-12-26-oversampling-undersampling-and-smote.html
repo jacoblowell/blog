@@ -10,6 +10,9 @@ description: ''
 
 
 
+<!-- ```{r setup, include=FALSE} -->
+<!-- knitr::opts_chunk$set(echo = TRUE) -->
+<!-- ``` -->
 <pre class="r"><code>hmeq %&gt;%  filter(!is.na(VALUE)) %&gt;%
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +
@@ -24,7 +27,9 @@ table(hmeq$BAD)</code></pre>
 <pre><code>## 
 ##    0    1 
 ## 4771 1189</code></pre>
-<pre class="r"><code>hmeq &lt;- hmeq %&gt;% mutate(fill_notnull = 1)
+<pre class="r"><code>#hmeq &lt;- hmeq %&gt;% mutate(fill_notnull = 1)
+
+hmeq$ID &lt;- seq.int(nrow(hmeq))
 
 # for over and under, missing values skew
 
@@ -32,15 +37,20 @@ table(hmeq$BAD)</code></pre>
  n_new &lt;- 4771/(1-0.5)  # 4771 is the number of goods (non-bad)
 
 # Over-sample
-oversampling_result &lt;- ovun.sample(formula = BAD ~ fill_notnull, data = hmeq,
+oversampling_result &lt;- ovun.sample(formula = BAD ~ ., data = hmeq,
                            method = &quot;over&quot;, N = n_new, seed = 2019)
 
 # Verify the Class-balance of the over-sampled dataset
 oversampled_hmeq &lt;- oversampling_result$data
 prop.table(table(oversampled_hmeq$BAD))</code></pre>
 <pre><code>## 
-##   0   1 
-## 0.5 0.5</code></pre>
+##         0         1 
+## 0.3211067 0.6788933</code></pre>
+<pre class="r"><code>oversampled_hmeq %&gt;%  ggplot(aes(x = ID , fill = as.factor(BAD) )) + geom_histogram(binwidth =  1) + facet_grid(~BAD)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>unique_over_bad &lt;- oversampled_hmeq %&gt;% filter(BAD == 1)
+
+unique_over_good &lt;- oversampled_hmeq %&gt;% filter(BAD == 0)</code></pre>
 <p><strong><em>undersample</em></strong></p>
 <pre class="r"><code>table(hmeq$BAD)</code></pre>
 <pre><code>## 
@@ -81,22 +91,57 @@ prop.table(table(sampled_hmeq$BAD))</code></pre>
 </div>
 <div id="omit-nas" class="section level1">
 <h1>omit nas</h1>
-<pre class="r"><code>hmeq &lt;- na.omit(hmeq)
-table(hmeq$BAD)</code></pre>
+<pre class="r"><code>ll  &lt;- na.omit(lgd)
+hmeq &lt;- na.omit(hmeq)
+
+
+
+#############################################################################
+library(ROSE)
+
+#hmeq &lt;- na.omit(hmeq)
+table(lgd$event)</code></pre>
 <pre><code>## 
 ##    0    1 
-## 3064  300</code></pre>
-<pre class="r"><code># Calculate the required number of cases in the over-sampled dataset
- n_new &lt;- 3064/(1-0.5)  # 4771 is the number of goods (non-bad)
+##  728 1817</code></pre>
+<pre class="r"><code>#hmeq &lt;- hmeq %&gt;% mutate(fill_notnull = 1)
+
+lgd$ID &lt;- seq.int(nrow(lgd))
+
+# for over and under, missing values skew
+
+# Calculate the required number of cases in the over-sampled dataset
+ n_new &lt;- 1817/(1-0.5)  # 
 
 # Over-sample
-oversampling_result &lt;- ovun.sample(formula = BAD ~ ., data = hmeq,
+oversampling_result &lt;- ovun.sample(formula = event ~ ., data = lgd,
                            method = &quot;over&quot;, N = n_new, seed = 2019)
 
 # Verify the Class-balance of the over-sampled dataset
-oversampled_hmeq &lt;- oversampling_result$data
-prop.table(table(oversampled_hmeq$BAD))</code></pre>
+oversampled_lgd &lt;- oversampling_result$data
+prop.table(table(oversampled_lgd$event))</code></pre>
 <pre><code>## 
 ##   0   1 
 ## 0.5 0.5</code></pre>
+<pre class="r"><code>oversampled_lgd %&gt;%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = &quot;LGD oversample&quot;)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>##############################################################################
+table(lgd$event)</code></pre>
+<pre><code>## 
+##    0    1 
+##  728 1817</code></pre>
+<pre class="r"><code> n_new &lt;- 728/(0.5)  # 4771 is the number of bads (non-goods)
+
+# Over-sample
+undersampling_result &lt;- ovun.sample(formula = event ~ ., data = lgd,
+                           method = &quot;under&quot;, N = n_new, seed = 2019)
+
+# Verify the Class-balance of the over-sampled dataset
+undersampled_lgd &lt;- undersampling_result$data
+prop.table(table(undersampled_lgd$event))</code></pre>
+<pre><code>## 
+##   0   1 
+## 0.5 0.5</code></pre>
+<pre class="r"><code>undersampled_lgd %&gt;%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = &quot;LGD undersample&quot;)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
 </div>

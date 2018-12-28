@@ -10,16 +10,16 @@ description: ''
 
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+<!-- ```{r setup, include=FALSE} -->
+<!-- knitr::opts_chunk$set(echo = TRUE) -->
+<!-- ``` -->
 
 
 
 ```{r , include=FALSE}
-library(tidyverse)
-library(scales)
-lgd <- read_csv("lgd.csv")
+ library(tidyverse)
+ library(scales)
+ lgd <- read_csv("lgd.csv")
 
 hmeq <- read_csv("hmeq.csv")
 #creditcard <- read_csv("creditcard.csv")
