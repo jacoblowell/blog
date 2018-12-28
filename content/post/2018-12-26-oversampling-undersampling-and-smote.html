@@ -10,16 +10,93 @@ description: ''
 
 
 
-<pre class="r"><code>table(lgd$event,lgd$purpose1)</code></pre>
-<pre><code>##    
-##        0    1
-##   0  704   24
-##   1 1656  161</code></pre>
-<pre class="r"><code>prop.table(table(lgd$event))</code></pre>
+<pre class="r"><code>hmeq %&gt;%  filter(!is.na(VALUE)) %&gt;%
+  ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue&#39;, &#39;red&#39;)) + facet_grid(~BAD) + labs(title = &quot;Home Equity Loan Performance by loan amount and value of home&quot;)  +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><strong>oversampling, unsersampling</strong></p>
+<p>*** level the dataset ***</p>
+<pre class="r"><code>library(ROSE)</code></pre>
+<pre><code>## Loaded ROSE 0.0-3</code></pre>
+<pre class="r"><code>#hmeq &lt;- na.omit(hmeq)
+table(hmeq$BAD)</code></pre>
 <pre><code>## 
-##         0         1 
-## 0.2860511 0.7139489</code></pre>
+##    0    1 
+## 4771 1189</code></pre>
+<pre class="r"><code>hmeq &lt;- hmeq %&gt;% mutate(fill_notnull = 1)
+
+# for over and under, missing values skew
+
+# Calculate the required number of cases in the over-sampled dataset
+ n_new &lt;- 4771/(1-0.5)  # 4771 is the number of goods (non-bad)
+
+# Over-sample
+oversampling_result &lt;- ovun.sample(formula = BAD ~ fill_notnull, data = hmeq,
+                           method = &quot;over&quot;, N = n_new, seed = 2019)
+
+# Verify the Class-balance of the over-sampled dataset
+oversampled_hmeq &lt;- oversampling_result$data
+prop.table(table(oversampled_hmeq$BAD))</code></pre>
+<pre><code>## 
+##   0   1 
+## 0.5 0.5</code></pre>
+<p><strong><em>undersample</em></strong></p>
 <pre class="r"><code>table(hmeq$BAD)</code></pre>
 <pre><code>## 
 ##    0    1 
 ## 4771 1189</code></pre>
+<pre class="r"><code> n_new &lt;- 1189/(0.5)  # 4771 is the number of bads (non-goods)
+
+# Over-sample
+undersampling_result &lt;- ovun.sample(formula = BAD ~ ., data = hmeq,
+                           method = &quot;under&quot;, N = n_new, seed = 2019)
+
+# Verify the Class-balance of the over-sampled dataset
+undersampled_hmeq &lt;- undersampling_result$data
+prop.table(table(undersampled_hmeq$BAD))</code></pre>
+<pre><code>## 
+##         0         1 
+## 0.8738436 0.1261564</code></pre>
+<div id="combine-over-and-under-sample" class="section level1">
+<h1>combine over and under sample</h1>
+<pre class="r"><code>table(hmeq$BAD)</code></pre>
+<pre><code>## 
+##    0    1 
+## 4771 1189</code></pre>
+<pre class="r"><code># Specify the desired number of cases in the balanced dataset and the fraction of fraud cases
+n_new &lt;- 10000
+bad_fraction &lt;- 0.5
+
+# Combine ROS &amp; RUS!
+sampling_result &lt;- ovun.sample(formula = BAD ~ ., data = hmeq,
+                               method = &quot;both&quot;, N = n_new, p = bad_fraction, seed = 2018)
+
+# Verify the Class-balance of the re-balanced dataset
+sampled_hmeq &lt;- sampling_result$data
+prop.table(table(sampled_hmeq$BAD))</code></pre>
+<pre><code>## 
+##      0      1 
+## 0.5071 0.4929</code></pre>
+</div>
+<div id="omit-nas" class="section level1">
+<h1>omit nas</h1>
+<pre class="r"><code>hmeq &lt;- na.omit(hmeq)
+table(hmeq$BAD)</code></pre>
+<pre><code>## 
+##    0    1 
+## 3064  300</code></pre>
+<pre class="r"><code># Calculate the required number of cases in the over-sampled dataset
+ n_new &lt;- 3064/(1-0.5)  # 4771 is the number of goods (non-bad)
+
+# Over-sample
+oversampling_result &lt;- ovun.sample(formula = BAD ~ ., data = hmeq,
+                           method = &quot;over&quot;, N = n_new, seed = 2019)
+
+# Verify the Class-balance of the over-sampled dataset
+oversampled_hmeq &lt;- oversampling_result$data
+prop.table(table(oversampled_hmeq$BAD))</code></pre>
+<pre><code>## 
+##   0   1 
+## 0.5 0.5</code></pre>
+</div>
