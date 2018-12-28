@@ -16,7 +16,7 @@ googleAnalytics = "XXX"
     respectDoNotTrack = true
     useSessionStorage = false
     
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+#ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [Author]
     name = "My Name"
