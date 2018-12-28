@@ -55,7 +55,9 @@ library(ROSE)
 #hmeq <- na.omit(hmeq)
 table(hmeq$BAD)
 
-hmeq <- hmeq %>% mutate(fill_notnull = 1)
+#hmeq <- hmeq %>% mutate(fill_notnull = 1)
+
+hmeq$ID <- seq.int(nrow(hmeq))
 
 # for over and under, missing values skew
 
@@ -63,7 +65,7 @@ hmeq <- hmeq %>% mutate(fill_notnull = 1)
  n_new <- 4771/(1-0.5)  # 4771 is the number of goods (non-bad)
 
 # Over-sample
-oversampling_result <- ovun.sample(formula = BAD ~ fill_notnull, data = hmeq,
+oversampling_result <- ovun.sample(formula = BAD ~ ., data = hmeq,
                            method = "over", N = n_new, seed = 2019)
 
 # Verify the Class-balance of the over-sampled dataset
@@ -72,8 +74,12 @@ prop.table(table(oversampled_hmeq$BAD))
 
 
 
+oversampled_hmeq %>%  ggplot(aes(x = ID , fill = as.factor(BAD) )) + geom_histogram(binwidth =  1) + facet_grid(~BAD)
 
 
+unique_over_bad <- oversampled_hmeq %>% filter(BAD == 1)
+
+unique_over_good <- oversampled_hmeq %>% filter(BAD == 0)
 
 ```
 
@@ -123,20 +129,58 @@ prop.table(table(sampled_hmeq$BAD))
 
 ```{r}
 
-
+ll  <- na.omit(lgd)
 hmeq <- na.omit(hmeq)
-table(hmeq$BAD)
+
+
+
+#############################################################################
+library(ROSE)
+
+#hmeq <- na.omit(hmeq)
+table(lgd$event)
+
+#hmeq <- hmeq %>% mutate(fill_notnull = 1)
+
+lgd$ID <- seq.int(nrow(lgd))
+
+# for over and under, missing values skew
 
 # Calculate the required number of cases in the over-sampled dataset
- n_new <- 3064/(1-0.5)  # 4771 is the number of goods (non-bad)
+ n_new <- 1817/(1-0.5)  # 
 
 # Over-sample
-oversampling_result <- ovun.sample(formula = BAD ~ ., data = hmeq,
+oversampling_result <- ovun.sample(formula = event ~ ., data = lgd,
                            method = "over", N = n_new, seed = 2019)
 
 # Verify the Class-balance of the over-sampled dataset
-oversampled_hmeq <- oversampling_result$data
-prop.table(table(oversampled_hmeq$BAD))
+oversampled_lgd <- oversampling_result$data
+prop.table(table(oversampled_lgd$event))
+
+
+
+oversampled_lgd %>%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = "LGD oversample")
+
+
+
+##############################################################################
+table(lgd$event)
+
+ n_new <- 728/(0.5)  # 4771 is the number of bads (non-goods)
+
+# Over-sample
+undersampling_result <- ovun.sample(formula = event ~ ., data = lgd,
+                           method = "under", N = n_new, seed = 2019)
+
+# Verify the Class-balance of the over-sampled dataset
+undersampled_lgd <- undersampling_result$data
+prop.table(table(undersampled_lgd$event))
+
+
+
+undersampled_lgd %>%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = "LGD undersample")
+
+
 
 ```
 
