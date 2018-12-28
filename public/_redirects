@@ -1,0 +1,4 @@
+# Redirect default Netlify subdomain to primary domain
+http://heuristic-jackson-b4351f.netlify.com/* http://jakelowell.rbind.io/:splat 301!
+
+http://jakelowell.rbind.io/*    https://jakelowell.rbind.io/:splat  301!

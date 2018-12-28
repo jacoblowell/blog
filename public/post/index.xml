@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Jake learning toolbox</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on Jake learning toolbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>My Name</copyright>
+    <lastBuildDate>Fri, 28 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ML in Tidyverse</title>
+      <link>/2018/12/28/2018-12-28-ml-in-tidyverse/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/28/2018-12-28-ml-in-tidyverse/</guid>
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)```</description>
+    </item>
+    
+    <item>
+      <title>Oversampling, Undersampling and SMOTE</title>
+      <link>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</guid>
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
+*** level the dataset ***
+library(ROSE)## Loaded ROSE 0.0-3#hmeq &amp;lt;- na.omit(hmeq)table(hmeq$BAD)## ## 0 1 ## 4771 1189#hmeq &amp;lt;- hmeq %&amp;gt;% mutate(fill_notnull = 1)hmeq$ID &amp;lt;- seq.</description>
+    </item>
+    
+  </channel>
+</rss>

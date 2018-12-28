@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jake learning toolbox</title>
+    <link>/</link>
+    <description>Recent content on Jake learning toolbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>My Name</copyright>
+    <lastBuildDate>Fri, 28 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ML in Tidyverse</title>
+      <link>/2018/12/28/2018-12-28-ml-in-tidyverse/</link>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/28/2018-12-28-ml-in-tidyverse/</guid>
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)```</description>
+    </item>
+    
+    <item>
+      <title>This project</title>
+      <link>/project/my-awesome-project/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 -0500</pubDate>
+      
+      <guid>/project/my-awesome-project/</guid>
+      <description>About project This project is to help me remember code and concepts from DataCamp courses
+Install go get -u -v github.com/jacoblowell/Toolbox  Docs https://github.com/jacoblowell/Toolbox</description>
+    </item>
+    
+    <item>
+      <title>Oversampling, Undersampling and SMOTE</title>
+      <link>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</guid>
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
+*** level the dataset ***
+library(ROSE)## Loaded ROSE 0.0-3#hmeq &amp;lt;- na.omit(hmeq)table(hmeq$BAD)## ## 0 1 ## 4771 1189#hmeq &amp;lt;- hmeq %&amp;gt;% mutate(fill_notnull = 1)hmeq$ID &amp;lt;- seq.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/page/about/</link>
+      <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
+      
+      <guid>/page/about/</guid>
+      <description>About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec dolor in magna lobortis egestas. Suspendisse eu erat tempor, tristique neque eu, convallis nulla. Curabitur vel bibendum lacus, at semper mauris. Suspendisse aliquet commodo ex, sed sagittis metus aliquam id. Maecenas feugiat rutrum lorem vel imperdiet. Nullam ornare lectus ut enim finibus, et porttitor mi tincidunt. Aenean lacinia, leo quis vehicula eleifend, quam libero sagittis erat, at euismod augue mauris et sapien.</description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>/page/contact/</link>
+      <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
+      
+      <guid>/page/contact/</guid>
+      <description>Contact Aenean ipsum justo, semper eu nisl ut, pretium tincidunt sem. Praesent et diam sit amet lacus lobortis dictum a id lacus. Quisque hendrerit sit amet turpis eu varius. Ut id lorem ac felis ultrices tincidunt. Pellentesque consequat arcu ac fringilla imperdiet. Phasellus pellentesque, sapien non pulvinar blandit, sapien ante aliquet felis, vel porttitor sapien ante in lacus. Fusce non urna aliquet, malesuada nibh vel, luctus urna. Phasellus ut lacus molestie, varius purus quis, malesuada lorem.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/project/my-awesome-project/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/my-awesome-project/</guid>
+      <description>code{white-space: pre;}pre:not([class]) {background-color: white;}if (window.hljs) {hljs.configure({languages: []});hljs.initHighlightingOnLoad();if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) {window.setTimeout(function() { hljs.initHighlighting(); }, 0);}}h1 {font-size: 34px;}h1.title {font-size: 38px;}h2 {font-size: 30px;}h3 {font-size: 24px;}h4 {font-size: 18px;}h5 {font-size: 16px;}h6 {font-size: 12px;}.</description>
+    </item>
+    
+  </channel>
+</rss>
