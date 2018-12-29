@@ -39,7 +39,7 @@ table(hmeq$BAD)
 
 
 
-```{r, out.width='2%', fig.align='center', fig.cap='...'}
+```{r,fig.width = 6,fig.asp = 0.618, fig.align='center'}
 hmeq %>%  filter(!is.na(VALUE)) %>%
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +

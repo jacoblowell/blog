@@ -37,7 +37,7 @@ Install go get -u -v github.com/jacoblowell/Toolbox  Docs https://github.com/jac
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</guid>
-      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)Figure 1: …oversampling, unsersampling
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
 *** level the dataset ***
 library(ROSE)## Loaded ROSE 0.0-3#hmeq &amp;lt;- na.omit(hmeq)table(hmeq$BAD)## ## 0 1 ## 4771 1189#hmeq &amp;lt;- hmeq %&amp;gt;% mutate(fill_notnull = 1)hmeq$ID &amp;lt;- seq.</description>
     </item>
