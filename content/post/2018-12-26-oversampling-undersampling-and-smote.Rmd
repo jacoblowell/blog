@@ -10,10 +10,6 @@ description: ''
 
 
 
-<!-- ```{r setup, include=FALSE} -->
-<!-- knitr::opts_chunk$set(echo = TRUE) -->
-<!-- ``` -->
-
 
 
 ```{r , include=FALSE}
@@ -39,7 +35,7 @@ table(hmeq$BAD)
 
 
 
-```{r,fig.width = 2,fig.asp = 0.618, fig.align='center'}
+```{r,fig.width = 5,fig.asp = 0.618, fig.align='center'}
 hmeq %>%  filter(!is.na(VALUE)) %>%
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +
@@ -47,6 +43,8 @@ hmeq %>%  filter(!is.na(VALUE)) %>%
 ```
 
 **oversampling, unsersampling**
+
+These programs do not work well with missing values.  They only are able to resample for complete cases.
 
 *** level the dataset ***
 ```{r}
@@ -77,9 +75,17 @@ prop.table(table(oversampled_hmeq$BAD))
 oversampled_hmeq %>%  ggplot(aes(x = ID , fill = as.factor(BAD) )) + geom_histogram(binwidth =  1) + facet_grid(~BAD)
 
 
+hmeq_bad_nona <- hmeq %>%  filter(BAD ==1 ) %>%  drop_na()
+
 unique_over_bad <- oversampled_hmeq %>% filter(BAD == 1)
 
+unique_over_bad <- unique_over_bad %>%  group_by(ID) %>%  slice(1) %>% ungroup()
+
+hmeq_good_nona <- hmeq %>%  filter(BAD ==0 ) %>%  drop_na()
+
 unique_over_good <- oversampled_hmeq %>% filter(BAD == 0)
+
+unique_over_good <- unique_over_good %>%  group_by(ID) %>%  slice(1) %>% ungroup()
 
 ```
 
@@ -125,12 +131,44 @@ prop.table(table(sampled_hmeq$BAD))
 ```
 
 
+## test dups with both way over and under sample
+
+```{r}
+
+hmeq_bad_nona <- hmeq %>%  filter(BAD ==1 ) %>%  drop_na()
+
+unique_over_bad <- sampled_hmeq %>% filter(BAD == 1)
+
+unique_over_bad <- unique_over_bad %>%  group_by(ID) %>%  slice(1) %>% ungroup()
+
+hmeq_good_nona <- hmeq %>%  filter(BAD ==0 ) %>%  drop_na()
+
+unique_over_good <- sampled_hmeq %>% filter(BAD == 0)
+
+unique_over_good <- unique_over_good %>%  group_by(ID) %>%  slice(1) %>% ungroup()
+
+
+
+
+
+sampled_hmeq %>%  ggplot(aes(x = ID , fill = as.factor(BAD) )) + geom_histogram(binwidth =  1) + facet_grid(~BAD) + labs(title = "HMEQ BOTH OVER and UNDER"  , caption = "You can see that the underweight class is used a high number of times")
+
+
+```
+
+
+
+
+
 #omit nas
 
-```{r ,fig.dim = c(1.5, 1)}
 
-ll  <- na.omit(lgd)
-hmeq <- na.omit(hmeq)
+### the lgd set has no missing values, so oversampling works as expected
+
+```{r ,fig.width = 5,fig.asp = 0.618, fig.align='center'}
+
+#ll  <- na.omit(lgd)
+#hmeq <- na.omit(hmeq)
 
 
 
@@ -162,7 +200,7 @@ prop.table(table(oversampled_lgd$event))
 oversampled_lgd %>%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = "LGD oversample")
 ```
 
-```{r  , fig.dim = c(5, 3) }
+```{r  ,fig.width = 5,fig.asp = 0.618, fig.align='center' }
 
 
 
