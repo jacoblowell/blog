@@ -17,7 +17,7 @@ description: ''
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +
   scale_color_manual(values = c(&#39;dodgerblue&#39;, &#39;red&#39;)) + facet_grid(~BAD) + labs(title = &quot;Home Equity Loan Performance by loan amount and value of home&quot;)  +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" width="192" style="display: block; margin: auto;" /></p>
 <p><strong>oversampling, unsersampling</strong></p>
 <p>*** level the dataset ***</p>
 <pre class="r"><code>library(ROSE)</code></pre>
