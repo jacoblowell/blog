@@ -17,7 +17,12 @@ description: ''
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +
   scale_color_manual(values = c(&#39;dodgerblue&#39;, &#39;red&#39;)) + facet_grid(~BAD) + labs(title = &quot;Home Equity Loan Performance by loan amount and value of home&quot;)  +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" alt="..." width="25%" />
+<p class="caption">
+Figure 1: …
+</p>
+</div>
 <p><strong>oversampling, unsersampling</strong></p>
 <p>*** level the dataset ***</p>
 <pre class="r"><code>library(ROSE)</code></pre>
@@ -124,7 +129,7 @@ prop.table(table(oversampled_lgd$event))</code></pre>
 ##   0   1 
 ## 0.5 0.5</code></pre>
 <pre class="r"><code>oversampled_lgd %&gt;%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = &quot;LGD oversample&quot;)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-1.png" width="576" /></p>
 <pre class="r"><code>##############################################################################
 table(lgd$event)</code></pre>
 <pre><code>## 
@@ -143,5 +148,5 @@ prop.table(table(undersampled_lgd$event))</code></pre>
 ##   0   1 
 ## 0.5 0.5</code></pre>
 <pre class="r"><code>undersampled_lgd %&gt;%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = &quot;LGD undersample&quot;)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
 </div>

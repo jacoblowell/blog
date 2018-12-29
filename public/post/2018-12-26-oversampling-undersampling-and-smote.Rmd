@@ -39,7 +39,7 @@ table(hmeq$BAD)
 
 
 
-```{r}
+```{r, out.width='25%', fig.align='center', fig.cap='...'}
 hmeq %>%  filter(!is.na(VALUE)) %>%
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +
@@ -127,7 +127,7 @@ prop.table(table(sampled_hmeq$BAD))
 
 #omit nas
 
-```{r}
+```{r ,fig.dim = c(6, 4)}
 
 ll  <- na.omit(lgd)
 hmeq <- na.omit(hmeq)
@@ -160,6 +160,9 @@ prop.table(table(oversampled_lgd$event))
 
 
 oversampled_lgd %>%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = "LGD oversample")
+```
+
+```{r  , fig.dim = c(5, 3) }
 
 
 
@@ -183,4 +186,8 @@ undersampled_lgd %>%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_hist
 
 
 ```
+
+
+
+
 
