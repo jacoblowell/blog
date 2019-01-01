@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Oversampling, Undersampling and SMOTE &middot; My Name</title>
         <meta name="description" content="hmeq %&gt;% filter(!is.na(VALUE)) %&gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) &#43;geom_point() &#43;scale_color_manual(values = c(&#39;dodgerblue&#39;, &#39;red&#39;)) &#43; facet_grid(~BAD) &#43; labs(title = &quot;Home Equity Loan Performance by loan amount and value of home&quot;) &#43;scale_y_continuous(labels = scales::dollar) &#43; scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
-*** level the dataset ***
-library(ROSE)## Loaded ROSE 0.0-3#hmeq &lt;- na.omit(hmeq)table(hmeq$BAD)## ## 0 1 ## 4771 1189#hmeq &lt;- hmeq %&gt;% mutate(fill_notnull = 1)hmeq$ID &lt;- seq.">
+These programs do not work well with missing values. They only are able to resample for complete cases.
+*** level the dataset ***">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
         <meta name="generator" content="Hugo 0.53" />
@@ -14,8 +14,8 @@ library(ROSE)## Loaded ROSE 0.0-3#hmeq &lt;- na.omit(hmeq)table(hmeq$BAD)## 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta property="og:title" content="Oversampling, Undersampling and SMOTE">
 <meta property="og:description" content="hmeq %&gt;% filter(!is.na(VALUE)) %&gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) &#43;geom_point() &#43;scale_color_manual(values = c(&#39;dodgerblue&#39;, &#39;red&#39;)) &#43; facet_grid(~BAD) &#43; labs(title = &quot;Home Equity Loan Performance by loan amount and value of home&quot;) &#43;scale_y_continuous(labels = scales::dollar) &#43; scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
-*** level the dataset ***
-library(ROSE)## Loaded ROSE 0.0-3#hmeq &lt;- na.omit(hmeq)table(hmeq$BAD)## ## 0 1 ## 4771 1189#hmeq &lt;- hmeq %&gt;% mutate(fill_notnull = 1)hmeq$ID &lt;- seq.">
+These programs do not work well with missing values. They only are able to resample for complete cases.
+*** level the dataset ***">
 <meta property="og:type" content="article">
 <meta property="og:url" content="/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/">
         <link rel="stylesheet" href="/dist/styles.css">
@@ -120,15 +120,13 @@ if (!doNotTrack) {
     
 
 
-<!-- ```{r setup, include=FALSE} -->
-<!-- knitr::opts_chunk$set(echo = TRUE) -->
-<!-- ``` -->
 <pre class="r"><code>hmeq %&gt;%  filter(!is.na(VALUE)) %&gt;%
   ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +
   geom_point() +
   scale_color_manual(values = c(&#39;dodgerblue&#39;, &#39;red&#39;)) + facet_grid(~BAD) + labs(title = &quot;Home Equity Loan Performance by loan amount and value of home&quot;)  +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" width="192" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p><strong>oversampling, unsersampling</strong></p>
+<p>These programs do not work well with missing values. They only are able to resample for complete cases.</p>
 <p>*** level the dataset ***</p>
 <pre class="r"><code>library(ROSE)</code></pre>
 <pre><code>## Loaded ROSE 0.0-3</code></pre>
@@ -158,9 +156,17 @@ prop.table(table(oversampled_hmeq$BAD))</code></pre>
 ## 0.3211067 0.6788933</code></pre>
 <pre class="r"><code>oversampled_hmeq %&gt;%  ggplot(aes(x = ID , fill = as.factor(BAD) )) + geom_histogram(binwidth =  1) + facet_grid(~BAD)</code></pre>
 <p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code>unique_over_bad &lt;- oversampled_hmeq %&gt;% filter(BAD == 1)
+<pre class="r"><code>hmeq_bad_nona &lt;- hmeq %&gt;%  filter(BAD ==1 ) %&gt;%  drop_na()
 
-unique_over_good &lt;- oversampled_hmeq %&gt;% filter(BAD == 0)</code></pre>
+unique_over_bad &lt;- oversampled_hmeq %&gt;% filter(BAD == 1)
+
+unique_over_bad &lt;- unique_over_bad %&gt;%  group_by(ID) %&gt;%  slice(1) %&gt;% ungroup()
+
+hmeq_good_nona &lt;- hmeq %&gt;%  filter(BAD ==0 ) %&gt;%  drop_na()
+
+unique_over_good &lt;- oversampled_hmeq %&gt;% filter(BAD == 0)
+
+unique_over_good &lt;- unique_over_good %&gt;%  group_by(ID) %&gt;%  slice(1) %&gt;% ungroup()</code></pre>
 <p><strong><em>undersample</em></strong></p>
 <pre class="r"><code>table(hmeq$BAD)</code></pre>
 <pre><code>## 
@@ -198,11 +204,34 @@ prop.table(table(sampled_hmeq$BAD))</code></pre>
 <pre><code>## 
 ##      0      1 
 ## 0.5071 0.4929</code></pre>
+<div id="test-dups-with-both-way-over-and-under-sample" class="section level2">
+<h2>test dups with both way over and under sample</h2>
+<pre class="r"><code>hmeq_bad_nona &lt;- hmeq %&gt;%  filter(BAD ==1 ) %&gt;%  drop_na()
+
+unique_over_bad &lt;- sampled_hmeq %&gt;% filter(BAD == 1)
+
+unique_over_bad &lt;- unique_over_bad %&gt;%  group_by(ID) %&gt;%  slice(1) %&gt;% ungroup()
+
+hmeq_good_nona &lt;- hmeq %&gt;%  filter(BAD ==0 ) %&gt;%  drop_na()
+
+unique_over_good &lt;- sampled_hmeq %&gt;% filter(BAD == 0)
+
+unique_over_good &lt;- unique_over_good %&gt;%  group_by(ID) %&gt;%  slice(1) %&gt;% ungroup()
+
+
+
+
+
+sampled_hmeq %&gt;%  ggplot(aes(x = ID , fill = as.factor(BAD) )) + geom_histogram(binwidth =  1) + facet_grid(~BAD) + labs(title = &quot;HMEQ BOTH OVER and UNDER&quot;  , caption = &quot;You can see that the underweight class is used a high number of times&quot;)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
 </div>
 <div id="omit-nas" class="section level1">
 <h1>omit nas</h1>
-<pre class="r"><code>ll  &lt;- na.omit(lgd)
-hmeq &lt;- na.omit(hmeq)
+<div id="the-lgd-set-has-no-missing-values-so-oversampling-works-as-expected" class="section level3">
+<h3>the lgd set has no missing values, so oversampling works as expected</h3>
+<pre class="r"><code>#ll  &lt;- na.omit(lgd)
+#hmeq &lt;- na.omit(hmeq)
 
 
 
@@ -234,7 +263,7 @@ prop.table(table(oversampled_lgd$event))</code></pre>
 ##   0   1 
 ## 0.5 0.5</code></pre>
 <pre class="r"><code>oversampled_lgd %&gt;%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = &quot;LGD oversample&quot;)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-6-1.png" width="144" /></p>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>##############################################################################
 table(lgd$event)</code></pre>
 <pre><code>## 
@@ -253,7 +282,103 @@ prop.table(table(undersampled_lgd$event))</code></pre>
 ##   0   1 
 ## 0.5 0.5</code></pre>
 <pre class="r"><code>undersampled_lgd %&gt;%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_histogram(binwidth =  1) + facet_grid(~event) + labs(title = &quot;LGD undersample&quot;)</code></pre>
-<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="smote" class="section level1">
+<h1>smote</h1>
+<pre class="r"><code>library(smotefamily)
+library(FNN)
+#hmeq2 &lt;- na.omit(hmeq)
+#table(hmeq2$BAD)
+
+table(lgd$event)</code></pre>
+<pre><code>## 
+##    0    1 
+##  728 1817</code></pre>
+<pre class="r"><code># Set the number of fraud and legitimate cases, and the desired percentage of legitimate cases
+n0 &lt;- 727; n1 &lt;- 1817; r0 &lt;- 0.5
+
+# Calculate the value for the dup_size parameter of SMOTE
+ntimes &lt;- ((1 - r0) / r0) * (n0 / n1) - 1
+
+# Create synthetic fraud cases with SMOTE
+smote_output &lt;- SMOTE(X = lgd , target = lgd$event, K = 3, dup_size = 1.2)
+
+# Make a scatter plot of the original and over-sampled dataset
+lgd_smote &lt;- smote_output$data
+colnames(lgd_smote)[10] &lt;- &quot;Class&quot;
+#prop.table(table(lgd_smote$Class))
+
+ggplot(lgd, aes(x = LTV, y = lgd_time, color = as.factor(event))) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(lgd_smote, aes(x = LTV, y = lgd_time, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(lgd, aes(x = LTV, y = lgd_time, color = as.factor(event))) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;)) + facet_wrap(~event , scales = &quot;free&quot;)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(lgd_smote, aes(x = LTV, y = lgd_time, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<div id="section" class="section level7">
+<p></p>
+</div>
+</div>
+<div id="smote-with-missing-values-dataset-hmeq" class="section level1">
+<h1>smote with missing values dataset hmeq</h1>
+</div>
+<div id="no-smote-does-not-like-nas" class="section level1">
+<h1>no, smote does not like NA’s</h1>
+</div>
+<div id="smote-1" class="section level1">
+<h1>smote</h1>
+<pre class="r"><code>library(smotefamily)
+library(FNN)
+#hmeq2 &lt;- na.omit(hmeq)
+#table(hmeq2$BAD)
+
+hmeq &lt;- na.omit(hmeq)
+
+table(hmeq$BAD)</code></pre>
+<pre><code>## 
+##    0    1 
+## 3064  300</code></pre>
+<pre class="r"><code># Set the number of fraud and legitimate cases, and the desired percentage of legitimate cases
+n0 &lt;- 4771; n1 &lt;- 1189; r0 &lt;- 0.5
+
+# Calculate the value for the dup_size parameter of SMOTE
+ntimes &lt;- ((1 - r0) / r0) * (n0 / n1) - 1
+
+# Create synthetic fraud cases with SMOTE
+smote_output &lt;- SMOTE(X = hmeq[ , -c(1, 5, 6)] , target = hmeq$BAD, K = 3, dup_size = ntimes)
+
+# Make a scatter plot of the original and over-sampled dataset
+hmeq_smote &lt;- smote_output$data
+colnames(hmeq_smote)[12] &lt;- &quot;Class&quot;
+#prop.table(table(hmeq_smote$Class))
+
+ggplot(hmeq, aes(x = MORTDUE, y = LOAN, color = as.factor(BAD))) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(hmeq_smote, aes(x = MORTDUE, y = LOAN, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(hmeq, aes(x = MORTDUE, y = LOAN, color = as.factor(BAD))) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;)) + facet_wrap(~BAD , scales = &quot;free&quot;)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(hmeq_smote, aes(x = MORTDUE, y = LOAN, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))  + facet_wrap(~Class , scales = &quot;free&quot;)</code></pre>
+<p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 </div>
 
 </div>

@@ -227,5 +227,117 @@ undersampled_lgd %>%  ggplot(aes(x = ID , fill = as.factor(event) )) + geom_hist
 
 
 
+#smote
 
+```{r}
+
+library(smotefamily)
+library(FNN)
+#hmeq2 <- na.omit(hmeq)
+#table(hmeq2$BAD)
+
+table(lgd$event)
+
+# Set the number of fraud and legitimate cases, and the desired percentage of legitimate cases
+n0 <- 727; n1 <- 1817; r0 <- 0.5
+
+# Calculate the value for the dup_size parameter of SMOTE
+ntimes <- ((1 - r0) / r0) * (n0 / n1) - 1
+
+# Create synthetic fraud cases with SMOTE
+smote_output <- SMOTE(X = lgd , target = lgd$event, K = 3, dup_size = 1.2)
+
+# Make a scatter plot of the original and over-sampled dataset
+lgd_smote <- smote_output$data
+colnames(lgd_smote)[10] <- "Class"
+#prop.table(table(lgd_smote$Class))
+
+ggplot(lgd, aes(x = LTV, y = lgd_time, color = as.factor(event))) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+ggplot(lgd_smote, aes(x = LTV, y = lgd_time, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+```
+
+
+
+
+```{r}
+ggplot(lgd, aes(x = LTV, y = lgd_time, color = as.factor(event))) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red')) + facet_wrap(~event , scales = "free")
+
+ggplot(lgd_smote, aes(x = LTV, y = lgd_time, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+
+```
+
+
+
+
+
+#######
+
+#smote with missing values dataset hmeq
+
+
+#no, smote does not like NA's
+
+#smote
+
+```{r}
+
+library(smotefamily)
+library(FNN)
+#hmeq2 <- na.omit(hmeq)
+#table(hmeq2$BAD)
+
+hmeq <- na.omit(hmeq)
+
+table(hmeq$BAD)
+
+# Set the number of fraud and legitimate cases, and the desired percentage of legitimate cases
+n0 <- 4771; n1 <- 1189; r0 <- 0.5
+
+# Calculate the value for the dup_size parameter of SMOTE
+ntimes <- ((1 - r0) / r0) * (n0 / n1) - 1
+
+# Create synthetic fraud cases with SMOTE
+smote_output <- SMOTE(X = hmeq[ , -c(1, 5, 6)] , target = hmeq$BAD, K = 3, dup_size = ntimes)
+
+# Make a scatter plot of the original and over-sampled dataset
+hmeq_smote <- smote_output$data
+colnames(hmeq_smote)[12] <- "Class"
+#prop.table(table(hmeq_smote$Class))
+
+ggplot(hmeq, aes(x = MORTDUE, y = LOAN, color = as.factor(BAD))) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+ggplot(hmeq_smote, aes(x = MORTDUE, y = LOAN, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+```
+
+
+
+
+```{r}
+
+ggplot(hmeq, aes(x = MORTDUE, y = LOAN, color = as.factor(BAD))) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red')) + facet_wrap(~BAD , scales = "free")
+
+ggplot(hmeq_smote, aes(x = MORTDUE, y = LOAN, color = Class)) +
+  geom_point() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))  + facet_wrap(~Class , scales = "free")
+
+
+```
 
