@@ -1,0 +1,236 @@
+---
+title: Compare Class Imbalance Methods
+author: Jacob Lowell
+date: '2019-01-01'
+slug: compare-class-imbalance-methods
+categories: []
+tags: []
+description: ''
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+library(rpart)
+library(tidyverse)
+```
+
+
+
+```{r , include = FALSE}
+data_dictionary_1_ <- read_csv("C:/Users/jake/Desktop/kaggle/credit one/kaggle-credit-one/data_dictionary (1).csv")
+
+credit <- read_csv("C:/Users/jake/Desktop/kaggle/credit one/kaggle-credit-one/train (5).csv")
+
+library(rsample)
+split <- initial_split(credit, prop = 0.75)
+training_data <- training(split)
+testing_data <- testing(split)
+nrow(training_data)
+
+nrow(testing_data)
+
+#test<- read_csv("C:/Users/jake/Desktop/kaggle/credit one/kaggle-credit-one/test (4).csv")
+
+# library(skimr)
+# 
+# test %>% skim()
+# 
+# train %>%  skim()
+
+```
+
+## Remove variables that contain missing values, because they do not work well with ROSE for oversampling
+
+```{r}
+training_data <- training_data %>% select(- MonthlyIncome , - NumberOfDependents)
+
+testing_data <- testing_data %>% select(- MonthlyIncome , - NumberOfDependents)
+
+```
+
+
+
+```{r}
+table(training_data$SeriousDlqin2yrs)
+
+prop.table(table(training_data$SeriousDlqin2yrs))
+
+```
+
+we have a 6.7% bad rate in the training data
+
+```{r}
+
+library(smotefamily)
+
+
+# Set the number of fraud and legitimate cases, and the desired percentage of legitimate cases
+n0 <- 73492; n1 <- 5258; r0 <- 0.5
+
+# Calculate the value for the dup_size parameter of SMOTE
+ntimes <- ((1 - r0) / r0) * (n0 / n1) - 1
+
+# Create synthetic fraud cases with SMOTE
+smote_output <- SMOTE(X = training_data[ , -c(1,2 )] , target = training_data$SeriousDlqin2yrs, K = 5, dup_size = ntimes)
+
+# Make a scatter plot of the original and over-sampled dataset
+training_smote <- smote_output$data
+colnames(training_smote)[9] <- "Class"
+#prop.table(table(hmeq_smote$Class))
+
+ggplot(training_data, aes(x = NumberRealEstateLoansOrLines, y = DebtRatio, color = as.factor(SeriousDlqin2yrs))) +
+  geom_jitter() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+training_data <- training_data %>%  mutate(Class = as.factor(SeriousDlqin2yrs)) %>% select(-SeriousDlqin2yrs)
+
+ggplot(training_smote, aes(x = NumberRealEstateLoansOrLines, y = DebtRatio, color = Class)) +
+  geom_jitter() +
+  scale_color_manual(values = c('dodgerblue2', 'red'))
+
+
+
+table(training_smote$Class)
+table(training_data$Class)
+```
+
+
+
+
+#### model
+
+
+1. split into training and test
+2.perform smote on one training set
+3. train model on smote and non smote
+4. compare performance
+
+
+```{r , model}
+
+library(rpart)
+library(caret)
+
+# Train the rpart algorithm on the original training set and the SMOTE-rebalanced training set
+model_orig <- rpart(Class ~ ., data = training_data)
+
+library(pROC)
+library(partykit)
+plot(as.party(model_orig))
+
+
+model_smote <- rpart(Class ~ ., data = training_smote)
+
+plot(as.party(model_smote))
+
+# Predict the fraud probabilities of the test cases
+scores_orig <- predict(model_orig, newdata = testing_data, type = "prob")[,2]
+auc(roc(response = testing_data$SeriousDlqin2yrs, predictor = scores_orig))
+
+scores_smote <- predict(model_smote, newdata = testing_data, type = "prob")[,2]
+
+auc(roc(response = testing_data$SeriousDlqin2yrs, predictor = scores_smote))
+
+# Convert the probabilities to classes (0 or 1) using a cutoff value
+predicted_class_orig <- factor(ifelse(scores_orig > 0.5, 1, 0))
+predicted_class_smote <- factor(ifelse(scores_smote > 0.5, 1, 0))
+
+# Determine the confusion matrices and the model's accuracy
+CM_orig <- confusionMatrix(data = predicted_class_orig, reference = factor(testing_data$SeriousDlqin2yrs))
+CM_smote <- confusionMatrix(data = predicted_class_smote, reference = factor(testing_data$SeriousDlqin2yrs))
+print(CM_orig$table)
+print(CM_orig$overall[1])
+print(CM_smote$table)
+print(CM_smote$overall[1])
+
+
+```
+
+
+```{r}
+cost_model <- function(predicted.classes, true.classes, amounts, fixedcost) {
+  library(hmeasure)
+  predicted.classes <- relabel(predicted.classes)
+  true.classes <- relabel(true.classes)
+  cost <- sum(true.classes * (1 - predicted.classes) * amounts +
+                predicted.classes * fixedcost)
+  return(cost)
+}
+
+
+# Calculate the total cost of deploying the original model
+cost_model(predicted_class_orig, testing_data$SeriousDlqin2yrs, testing_data$RevolvingUtilizationOfUnsecuredLines, fixedcost = 1)
+
+# Calculate the total cost of deploying the model using SMOTE
+cost_model(predicted_class_smote, testing_data$SeriousDlqin2yrs, testing_data$RevolvingUtilizationOfUnsecuredLines, fixedcost = 1)
+
+##
+
+#cost model from slides
+
+# cost_model = function(predicted.classes, true.classes, amounts, fixedcost) {
+# cost = sum(true.classes * (1 - predicted.classes) * amounts +
+# predicted.classes * fixedcost)
+# return(cost)
+# }
+```
+
+
+```{r}
+
+strategy_bank  <- function(prob_of_def){
+cutoff=rep(NA, 21)
+bad_rate=rep(NA, 21)
+accept_rate=seq(1,0,by=-0.05)
+for (i in 1:21){
+  cutoff[i]=quantile(prob_of_def,accept_rate[i])
+  pred_i=ifelse(prob_of_def > cutoff[i], 1, 0)
+  pred_as_good=testing_data$SeriousDlqin2yrs[pred_i==0]
+  bad_rate[i]=sum(pred_as_good)/length(pred_as_good)}
+table=cbind(accept_rate,cutoff=round(cutoff,4),bad_rate=round(bad_rate,4))
+return(list(table=table,bad_rate=bad_rate, accept_rate=accept_rate, cutoff=cutoff))
+}
+
+
+strategy_bank(0.5)
+```
+
+
+```{r}
+strategy_orig  <- strategy_bank(scores_orig)
+
+strategy_smote <- strategy_bank(scores_smote)
+
+strategy_orig$table
+
+strategy_smote$table
+
+```
+
+
+```{r}
+par(mfrow = c(1,2))
+plot(strategy_orig$accept_rate, strategy_orig$bad_rate, 
+     type = "l", xlab = "Acceptance rate", ylab = "Bad rate", 
+     lwd = 2, main = "No sampling")
+
+plot(strategy_smote$accept_rate, strategy_smote$bad_rate, 
+     type = "l", xlab = "Acceptance rate", 
+     ylab = "Bad rate", lwd = 2, main = "Smote")
+```
+
+
+
+
+
+```{r}
+credit %>% filter(RevolvingUtilizationOfUnsecuredLines  < 2) %>% ggplot(aes(x= RevolvingUtilizationOfUnsecuredLines)) + geom_histogram() +
+  facet_wrap(~SeriousDlqin2yrs , scales = "free") + labs(title ="Distribution of Line Utilization by Delinquency result")
+```
+

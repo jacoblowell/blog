@@ -16,7 +16,7 @@ description: ''
  library(tidyverse)
  library(scales)
  lgd <- read_csv("lgd.csv")
-
+library(rpart)
 hmeq <- read_csv("hmeq.csv")
 #creditcard <- read_csv("creditcard.csv")
 #remove(creditcard)
@@ -337,6 +337,46 @@ ggplot(hmeq, aes(x = MORTDUE, y = LOAN, color = as.factor(BAD))) +
 ggplot(hmeq_smote, aes(x = MORTDUE, y = LOAN, color = Class)) +
   geom_point() +
   scale_color_manual(values = c('dodgerblue2', 'red'))  + facet_wrap(~Class , scales = "free")
+
+
+```
+
+
+
+
+
+#### model
+
+
+1. split into training and test
+2.perform smote on one training set
+3. train model on smote and non smote
+4. compare performance
+
+
+```{r , lgd}
+
+
+
+# Train the rpart algorithm on the original training set and the SMOTE-rebalanced training set
+#model_orig <- rpart(event ~ ., data = train_original)
+#model_smote <- rpart(Class ~ ., data = train_oversampled)
+
+# Predict the fraud probabilities of the test cases
+#scores_orig <- predict(model_orig, newdata = test, type = "prob")[, 2]
+#scores_smote <- predict(model_smote, newdata = test, type = "prob")[, 2]
+
+# Convert the probabilities to classes (0 or 1) using a cutoff value
+#predicted_class_orig <- factor(ifelse(scores_orig > 0.5, 1, 0))
+#predicted_class_smote <- factor(ifelse(scores_smote > 0.5, 1, 0))
+
+# Determine the confusion matrices and the model's accuracy
+# CM_orig <- confusionMatrix(data = predicted_class_orig, reference = test$Class)
+# CM_smote <- confusionMatrix(data = predicted_class_smote, reference = test$Class)
+# print(CM_orig$table)
+# print(CM_orig$overall[1])
+# print(CM_smote$table)
+# print(CM_smote$overall[1])
 
 
 ```

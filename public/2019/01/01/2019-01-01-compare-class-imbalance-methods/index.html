@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Compare Class Imbalance Methods &middot; My Name</title>
+        <meta name="description" content="library(rpart)library(tidyverse)## -- Attaching packages --------------------------------------------------- tidyverse 1.2.1 --## v ggplot2 3.0.0 v purrr 0.2.4## v tibble 1.4.2 v dplyr 0.7.5## v tidyr 0.8.1 v stringr 1.3.1## v readr 1.1.1 v forcats 0.3.0## -- Conflicts ------------------------------------------------------ tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()Remove variables that contain missing values, because they do not work well with ROSE for oversamplingtraining_data &lt;- training_data %&gt;% select(- MonthlyIncome , - NumberOfDependents)testing_data &lt;- testing_data %&gt;% select(- MonthlyIncome , - NumberOfDependents)table(training_data$SeriousDlqin2yrs)## ## 0 1 ## 73484 5266prop.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.53" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Compare Class Imbalance Methods">
+<meta property="og:description" content="library(rpart)library(tidyverse)## -- Attaching packages --------------------------------------------------- tidyverse 1.2.1 --## v ggplot2 3.0.0 v purrr 0.2.4## v tibble 1.4.2 v dplyr 0.7.5## v tidyr 0.8.1 v stringr 1.3.1## v readr 1.1.1 v forcats 0.3.0## -- Conflicts ------------------------------------------------------ tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()Remove variables that contain missing values, because they do not work well with ROSE for oversamplingtraining_data &lt;- training_data %&gt;% select(- MonthlyIncome , - NumberOfDependents)testing_data &lt;- testing_data %&gt;% select(- MonthlyIncome , - NumberOfDependents)table(training_data$SeriousDlqin2yrs)## ## 0 1 ## 73484 5266prop.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/2019/01/01/2019-01-01-compare-class-imbalance-methods/">
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+    </head>
+    <body>
+        
+<script type="application/javascript">
+var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+var doNotTrack = (dnt == "1" || dnt == "yes");
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'XXX', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Jake learning toolbox" href="/">Jake learning toolbox</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/lowell_jacob">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/jacoblowell">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:jakelowell@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Projects" href="/project/">Projects</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Compare Class Imbalance Methods</h1>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2019-01-01" itemprop="datePublished">Tue, Jan 1, 2019</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://google.com/&#43;XXX" itemprop="url" rel="author">Jacob Lowell</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    
+
+
+<pre class="r"><code>library(rpart)
+library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.0.0     v purrr   0.2.4
+## v tibble  1.4.2     v dplyr   0.7.5
+## v tidyr   0.8.1     v stringr 1.3.1
+## v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div id="remove-variables-that-contain-missing-values-because-they-do-not-work-well-with-rose-for-oversampling" class="section level2">
+<h2>Remove variables that contain missing values, because they do not work well with ROSE for oversampling</h2>
+<pre class="r"><code>training_data &lt;- training_data %&gt;% select(- MonthlyIncome , - NumberOfDependents)
+
+testing_data &lt;- testing_data %&gt;% select(- MonthlyIncome , - NumberOfDependents)</code></pre>
+<pre class="r"><code>table(training_data$SeriousDlqin2yrs)</code></pre>
+<pre><code>## 
+##     0     1 
+## 73484  5266</code></pre>
+<pre class="r"><code>prop.table(table(training_data$SeriousDlqin2yrs))</code></pre>
+<pre><code>## 
+##          0          1 
+## 0.93313016 0.06686984</code></pre>
+<p>we have a 6.7% bad rate in the training data</p>
+<pre class="r"><code>library(smotefamily)
+
+
+# Set the number of fraud and legitimate cases, and the desired percentage of legitimate cases
+n0 &lt;- 73492; n1 &lt;- 5258; r0 &lt;- 0.5
+
+# Calculate the value for the dup_size parameter of SMOTE
+ntimes &lt;- ((1 - r0) / r0) * (n0 / n1) - 1
+
+# Create synthetic fraud cases with SMOTE
+smote_output &lt;- SMOTE(X = training_data[ , -c(1,2 )] , target = training_data$SeriousDlqin2yrs, K = 5, dup_size = ntimes)
+
+# Make a scatter plot of the original and over-sampled dataset
+training_smote &lt;- smote_output$data
+colnames(training_smote)[9] &lt;- &quot;Class&quot;
+#prop.table(table(hmeq_smote$Class))
+
+ggplot(training_data, aes(x = NumberRealEstateLoansOrLines, y = DebtRatio, color = as.factor(SeriousDlqin2yrs))) +
+  geom_jitter() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2019-01-01-compare-class-imbalance-methods_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>training_data &lt;- training_data %&gt;%  mutate(Class = as.factor(SeriousDlqin2yrs)) %&gt;% select(-SeriousDlqin2yrs)
+
+ggplot(training_smote, aes(x = NumberRealEstateLoansOrLines, y = DebtRatio, color = Class)) +
+  geom_jitter() +
+  scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))</code></pre>
+<p><img src="/post/2019-01-01-compare-class-imbalance-methods_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre class="r"><code>table(training_smote$Class)</code></pre>
+<pre><code>## 
+##     0     1 
+## 73484 68458</code></pre>
+<pre class="r"><code>table(training_data$Class)</code></pre>
+<pre><code>## 
+##     0     1 
+## 73484  5266</code></pre>
+<div id="model" class="section level4">
+<h4>model</h4>
+<ol style="list-style-type: decimal">
+<li>split into training and test 2.perform smote on one training set</li>
+<li>train model on smote and non smote</li>
+<li>compare performance</li>
+</ol>
+<pre class="r"><code>library(rpart)
+library(caret)</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## 
+## Attaching package: &#39;caret&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     lift</code></pre>
+<pre class="r"><code># Train the rpart algorithm on the original training set and the SMOTE-rebalanced training set
+model_orig &lt;- rpart(Class ~ ., data = training_data)
+
+library(pROC)</code></pre>
+<pre><code>## Type &#39;citation(&quot;pROC&quot;)&#39; for a citation.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;pROC&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     cov, smooth, var</code></pre>
+<pre class="r"><code>library(partykit)</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<pre><code>## Loading required package: libcoin</code></pre>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre class="r"><code>plot(as.party(model_orig))</code></pre>
+<p><img src="/post/2019-01-01-compare-class-imbalance-methods_files/figure-html/model-1.png" width="672" /></p>
+<pre class="r"><code>model_smote &lt;- rpart(Class ~ ., data = training_smote)
+
+plot(as.party(model_smote))</code></pre>
+<p><img src="/post/2019-01-01-compare-class-imbalance-methods_files/figure-html/model-2.png" width="672" /></p>
+<pre class="r"><code># Predict the fraud probabilities of the test cases
+scores_orig &lt;- predict(model_orig, newdata = testing_data, type = &quot;prob&quot;)[,2]
+auc(roc(response = testing_data$SeriousDlqin2yrs, predictor = scores_orig))</code></pre>
+<pre><code>## Area under the curve: 0.6525</code></pre>
+<pre class="r"><code>scores_smote &lt;- predict(model_smote, newdata = testing_data, type = &quot;prob&quot;)[,2]
+
+auc(roc(response = testing_data$SeriousDlqin2yrs, predictor = scores_smote))</code></pre>
+<pre><code>## Area under the curve: 0.8158</code></pre>
+<pre class="r"><code># Convert the probabilities to classes (0 or 1) using a cutoff value
+predicted_class_orig &lt;- factor(ifelse(scores_orig &gt; 0.5, 1, 0))
+predicted_class_smote &lt;- factor(ifelse(scores_smote &gt; 0.5, 1, 0))
+
+# Determine the confusion matrices and the model&#39;s accuracy
+CM_orig &lt;- confusionMatrix(data = predicted_class_orig, reference = factor(testing_data$SeriousDlqin2yrs))
+CM_smote &lt;- confusionMatrix(data = predicted_class_smote, reference = factor(testing_data$SeriousDlqin2yrs))
+print(CM_orig$table)</code></pre>
+<pre><code>##           Reference
+## Prediction     0     1
+##          0 24236  1489
+##          1   255   270</code></pre>
+<pre class="r"><code>print(CM_orig$overall[1])</code></pre>
+<pre><code>##  Accuracy 
+## 0.9335619</code></pre>
+<pre class="r"><code>print(CM_smote$table)</code></pre>
+<pre><code>##           Reference
+## Prediction     0     1
+##          0 21842   705
+##          1  2649  1054</code></pre>
+<pre class="r"><code>print(CM_smote$overall[1])</code></pre>
+<pre><code>##  Accuracy 
+## 0.8722286</code></pre>
+<pre class="r"><code>cost_model &lt;- function(predicted.classes, true.classes, amounts, fixedcost) {
+  library(hmeasure)
+  predicted.classes &lt;- relabel(predicted.classes)
+  true.classes &lt;- relabel(true.classes)
+  cost &lt;- sum(true.classes * (1 - predicted.classes) * amounts +
+                predicted.classes * fixedcost)
+  return(cost)
+}
+
+
+# Calculate the total cost of deploying the original model
+cost_model(predicted_class_orig, testing_data$SeriousDlqin2yrs, testing_data$RevolvingUtilizationOfUnsecuredLines, fixedcost = 1)</code></pre>
+<pre><code>## [1] 1542.321</code></pre>
+<pre class="r"><code># Calculate the total cost of deploying the model using SMOTE
+cost_model(predicted_class_smote, testing_data$SeriousDlqin2yrs, testing_data$RevolvingUtilizationOfUnsecuredLines, fixedcost = 1)</code></pre>
+<pre><code>## [1] 4051.96</code></pre>
+<pre class="r"><code>##
+
+#cost model from slides
+
+# cost_model = function(predicted.classes, true.classes, amounts, fixedcost) {
+# cost = sum(true.classes * (1 - predicted.classes) * amounts +
+# predicted.classes * fixedcost)
+# return(cost)
+# }</code></pre>
+<pre class="r"><code>strategy_bank  &lt;- function(prob_of_def){
+cutoff=rep(NA, 21)
+bad_rate=rep(NA, 21)
+accept_rate=seq(1,0,by=-0.05)
+for (i in 1:21){
+  cutoff[i]=quantile(prob_of_def,accept_rate[i])
+  pred_i=ifelse(prob_of_def &gt; cutoff[i], 1, 0)
+  pred_as_good=testing_data$SeriousDlqin2yrs[pred_i==0]
+  bad_rate[i]=sum(pred_as_good)/length(pred_as_good)}
+table=cbind(accept_rate,cutoff=round(cutoff,4),bad_rate=round(bad_rate,4))
+return(list(table=table,bad_rate=bad_rate, accept_rate=accept_rate, cutoff=cutoff))
+}
+
+
+strategy_bank(0.5)</code></pre>
+<pre><code>## $table
+##       accept_rate cutoff bad_rate
+##  [1,]        1.00    0.5    0.067
+##  [2,]        0.95    0.5    0.067
+##  [3,]        0.90    0.5    0.067
+##  [4,]        0.85    0.5    0.067
+##  [5,]        0.80    0.5    0.067
+##  [6,]        0.75    0.5    0.067
+##  [7,]        0.70    0.5    0.067
+##  [8,]        0.65    0.5    0.067
+##  [9,]        0.60    0.5    0.067
+## [10,]        0.55    0.5    0.067
+## [11,]        0.50    0.5    0.067
+## [12,]        0.45    0.5    0.067
+## [13,]        0.40    0.5    0.067
+## [14,]        0.35    0.5    0.067
+## [15,]        0.30    0.5    0.067
+## [16,]        0.25    0.5    0.067
+## [17,]        0.20    0.5    0.067
+## [18,]        0.15    0.5    0.067
+## [19,]        0.10    0.5    0.067
+## [20,]        0.05    0.5    0.067
+## [21,]        0.00    0.5    0.067
+## 
+## $bad_rate
+##  [1] 0.06700952 0.06700952 0.06700952 0.06700952 0.06700952 0.06700952
+##  [7] 0.06700952 0.06700952 0.06700952 0.06700952 0.06700952 0.06700952
+## [13] 0.06700952 0.06700952 0.06700952 0.06700952 0.06700952 0.06700952
+## [19] 0.06700952 0.06700952 0.06700952
+## 
+## $accept_rate
+##  [1] 1.00 0.95 0.90 0.85 0.80 0.75 0.70 0.65 0.60 0.55 0.50 0.45 0.40 0.35
+## [15] 0.30 0.25 0.20 0.15 0.10 0.05 0.00
+## 
+## $cutoff
+##  [1] 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5
+## [18] 0.5 0.5 0.5 0.5</code></pre>
+<pre class="r"><code>strategy_orig  &lt;- strategy_bank(scores_orig)
+
+strategy_smote &lt;- strategy_bank(scores_smote)
+
+strategy_orig$table</code></pre>
+<pre><code>##       accept_rate cutoff bad_rate
+##  [1,]        1.00 0.5524   0.0670
+##  [2,]        0.95 0.3388   0.0579
+##  [3,]        0.90 0.0463   0.0470
+##  [4,]        0.85 0.0463   0.0470
+##  [5,]        0.80 0.0463   0.0470
+##  [6,]        0.75 0.0463   0.0470
+##  [7,]        0.70 0.0463   0.0470
+##  [8,]        0.65 0.0463   0.0470
+##  [9,]        0.60 0.0463   0.0470
+## [10,]        0.55 0.0463   0.0470
+## [11,]        0.50 0.0463   0.0470
+## [12,]        0.45 0.0463   0.0470
+## [13,]        0.40 0.0463   0.0470
+## [14,]        0.35 0.0463   0.0470
+## [15,]        0.30 0.0463   0.0470
+## [16,]        0.25 0.0463   0.0470
+## [17,]        0.20 0.0463   0.0470
+## [18,]        0.15 0.0463   0.0470
+## [19,]        0.10 0.0463   0.0470
+## [20,]        0.05 0.0463   0.0470
+## [21,]        0.00 0.0463   0.0470</code></pre>
+<pre class="r"><code>strategy_smote$table</code></pre>
+<pre><code>##       accept_rate cutoff bad_rate
+##  [1,]        1.00 0.9310   0.0670
+##  [2,]        0.95 0.8168   0.0488
+##  [3,]        0.90 0.7779   0.0468
+##  [4,]        0.85 0.4100   0.0313
+##  [5,]        0.80 0.4100   0.0313
+##  [6,]        0.75 0.4100   0.0313
+##  [7,]        0.70 0.4100   0.0313
+##  [8,]        0.65 0.4100   0.0313
+##  [9,]        0.60 0.2584   0.0195
+## [10,]        0.55 0.1260   0.0155
+## [11,]        0.50 0.1260   0.0155
+## [12,]        0.45 0.1260   0.0155
+## [13,]        0.40 0.1260   0.0155
+## [14,]        0.35 0.1260   0.0155
+## [15,]        0.30 0.1260   0.0155
+## [16,]        0.25 0.1260   0.0155
+## [17,]        0.20 0.1260   0.0155
+## [18,]        0.15 0.1260   0.0155
+## [19,]        0.10 0.1260   0.0155
+## [20,]        0.05 0.1260   0.0155
+## [21,]        0.00 0.1260   0.0155</code></pre>
+<pre class="r"><code>par(mfrow = c(1,2))
+plot(strategy_orig$accept_rate, strategy_orig$bad_rate, 
+     type = &quot;l&quot;, xlab = &quot;Acceptance rate&quot;, ylab = &quot;Bad rate&quot;, 
+     lwd = 2, main = &quot;No sampling&quot;)
+
+plot(strategy_smote$accept_rate, strategy_smote$bad_rate, 
+     type = &quot;l&quot;, xlab = &quot;Acceptance rate&quot;, 
+     ylab = &quot;Bad rate&quot;, lwd = 2, main = &quot;Smote&quot;)</code></pre>
+<p><img src="/post/2019-01-01-compare-class-imbalance-methods_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>credit %&gt;% filter(RevolvingUtilizationOfUnsecuredLines  &lt; 2) %&gt;% ggplot(aes(x= RevolvingUtilizationOfUnsecuredLines)) + geom_histogram() +
+  facet_wrap(~SeriousDlqin2yrs , scales = &quot;free&quot;) + labs(title =&quot;Distribution of Line Utilization by Delinquency result&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2019-01-01-compare-class-imbalance-methods_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Compare%20Class%20Imbalance%20Methods&url=%2f2019%2f01%2f01%2f2019-01-01-compare-class-imbalance-methods%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2019%2f01%2f01%2f2019-01-01-compare-class-imbalance-methods%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=%2f2019%2f01%2f01%2f2019-01-01-compare-class-imbalance-methods%2f"
+              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+              <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+            </a>
+        
+        
+    </div>
+</footer>
+
+        
+    <div class="comments">
+        
+    </div>
+
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Jake learning toolbox" href="/">Jake learning toolbox</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2019 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
+

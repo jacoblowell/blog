@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>My Name</copyright>
-    <lastBuildDate>Fri, 28 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Compare Class Imbalance Methods</title>
+      <link>/2019/01/01/2019-01-01-compare-class-imbalance-methods/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/01/01/2019-01-01-compare-class-imbalance-methods/</guid>
+      <description>library(rpart)library(tidyverse)## -- Attaching packages --------------------------------------------------- tidyverse 1.2.1 --## v ggplot2 3.0.0 v purrr 0.2.4## v tibble 1.4.2 v dplyr 0.7.5## v tidyr 0.8.1 v stringr 1.3.1## v readr 1.1.1 v forcats 0.3.0## -- Conflicts ------------------------------------------------------ tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()Remove variables that contain missing values, because they do not work well with ROSE for oversamplingtraining_data &amp;lt;- training_data %&amp;gt;% select(- MonthlyIncome , - NumberOfDependents)testing_data &amp;lt;- testing_data %&amp;gt;% select(- MonthlyIncome , - NumberOfDependents)table(training_data$SeriousDlqin2yrs)## ## 0 1 ## 73484 5266prop.</description>
+    </item>
     
     <item>
       <title>ML in Tidyverse</title>

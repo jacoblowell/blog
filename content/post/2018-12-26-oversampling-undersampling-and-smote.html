@@ -269,4 +269,31 @@ ggplot(hmeq, aes(x = MORTDUE, y = LOAN, color = as.factor(BAD))) +
   geom_point() +
   scale_color_manual(values = c(&#39;dodgerblue2&#39;, &#39;red&#39;))  + facet_wrap(~Class , scales = &quot;free&quot;)</code></pre>
 <p><img src="/post/2018-12-26-oversampling-undersampling-and-smote_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<div id="model" class="section level4">
+<h4>model</h4>
+<ol style="list-style-type: decimal">
+<li>split into training and test 2.perform smote on one training set</li>
+<li>train model on smote and non smote</li>
+<li>compare performance</li>
+</ol>
+<pre class="r"><code># Train the rpart algorithm on the original training set and the SMOTE-rebalanced training set
+#model_orig &lt;- rpart(event ~ ., data = train_original)
+#model_smote &lt;- rpart(Class ~ ., data = train_oversampled)
+
+# Predict the fraud probabilities of the test cases
+#scores_orig &lt;- predict(model_orig, newdata = test, type = &quot;prob&quot;)[, 2]
+#scores_smote &lt;- predict(model_smote, newdata = test, type = &quot;prob&quot;)[, 2]
+
+# Convert the probabilities to classes (0 or 1) using a cutoff value
+#predicted_class_orig &lt;- factor(ifelse(scores_orig &gt; 0.5, 1, 0))
+#predicted_class_smote &lt;- factor(ifelse(scores_smote &gt; 0.5, 1, 0))
+
+# Determine the confusion matrices and the model&#39;s accuracy
+# CM_orig &lt;- confusionMatrix(data = predicted_class_orig, reference = test$Class)
+# CM_smote &lt;- confusionMatrix(data = predicted_class_smote, reference = test$Class)
+# print(CM_orig$table)
+# print(CM_orig$overall[1])
+# print(CM_smote$table)
+# print(CM_smote$overall[1])</code></pre>
+</div>
 </div>
