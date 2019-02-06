@@ -1,0 +1,161 @@
+---
+title: Recipes
+subtitle: working doc
+author: Jacob Lowell
+date: '2019-02-05'
+slug: recipes
+categories: []
+tags:
+  - recipes
+  - model
+# description: ''
+# output: 
+#   html_document:
+#     theme: cosmo
+#     highlight: monochrome
+#     toc: true
+#     toc_float: false
+#     toc_depth: 4
+#     number_sections: true
+#     code_folding: hide
+---
+
+
+
+<pre><code>## -- Attaching packages -------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.1.0     v purrr   0.3.0
+## v tibble  2.0.1     v dplyr   0.7.8
+## v tidyr   0.8.1     v stringr 1.3.1
+## v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## -- Conflicts ----------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## Warning: package &#39;recipes&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;recipes&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stringr&#39;:
+## 
+##     fixed</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     step</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   BAD = col_integer(),
+##   LOAN = col_integer(),
+##   MORTDUE = col_double(),
+##   VALUE = col_double(),
+##   REASON = col_character(),
+##   JOB = col_character(),
+##   YOJ = col_double(),
+##   DEROG = col_integer(),
+##   DELINQ = col_integer(),
+##   CLAGE = col_double(),
+##   NINQ = col_integer(),
+##   CLNO = col_integer(),
+##   DEBTINC = col_double()
+## )</code></pre>
+<pre class="r"><code>library(skimr)
+skim(hmeq)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 5960 
+##  n variables: 13 
+## 
+## -- Variable type:character ----------------------------------------------------------------------------
+##  variable missing complete    n min max empty n_unique
+##       JOB     279     5681 5960   3   7     0        6
+##    REASON     252     5708 5960   7   7     0        2
+## 
+## -- Variable type:integer ------------------------------------------------------------------------------
+##  variable missing complete    n     mean       sd   p0   p25   p50   p75
+##       BAD       0     5960 5960     0.2      0.4     0     0     0     0
+##      CLNO     222     5738 5960    21.3     10.14    0    15    20    26
+##    DELINQ     580     5380 5960     0.45     1.13    0     0     0     0
+##     DEROG     708     5252 5960     0.25     0.85    0     0     0     0
+##      LOAN       0     5960 5960 18607.97 11207.48 1100 11100 16300 23300
+##      NINQ     510     5450 5960     1.19     1.73    0     0     1     2
+##   p100     hist
+##      1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;
+##     71 &lt;U+2582&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     15 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     10 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##  89900 &lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     17 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+## 
+## -- Variable type:numeric ------------------------------------------------------------------------------
+##  variable missing complete    n     mean       sd      p0      p25
+##     CLAGE     308     5652 5960   179.77    85.81    0      115.12
+##   DEBTINC    1267     4693 5960    33.78     8.6     0.52    29.14
+##   MORTDUE     518     5442 5960 73760.82 44457.61 2063    46276   
+##     VALUE     112     5848 5960 1e+05    57385.78 8000    66075.5 
+##       YOJ     515     5445 5960     8.92     7.57    0        3   
+##       p50       p75      p100     hist
+##    173.47    231.56   1168.23 &lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     34.82     39       203.31 &lt;U+2582&gt;&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##  65019     91488     4e+05    &lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##  89235.5  119824.25 855909    &lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##      7        13        41    &lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2583&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;</code></pre>
+<pre class="r"><code>skim(cc)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 3364 
+##  n variables: 13 
+## 
+## -- Variable type:character ----------------------------------------------------------------------------
+##  variable missing complete    n min max empty n_unique
+##       JOB       0     3364 3364   3   7     0        6
+##    REASON       0     3364 3364   7   7     0        2
+## 
+## -- Variable type:integer ------------------------------------------------------------------------------
+##  variable missing complete    n      mean       sd   p0   p25   p50   p75
+##       BAD       0     3364 3364     0.089     0.29    0     0     0     0
+##      CLNO       0     3364 3364    22.11      9.39    0    16    21    27
+##    DELINQ       0     3364 3364     0.28      0.81    0     0     0     0
+##     DEROG       0     3364 3364     0.15      0.58    0     0     0     0
+##      LOAN       0     3364 3364 19154.4   10875.42 1700 12000 17000 23825
+##      NINQ       0     3364 3364     1.04      1.55    0     0     1     2
+##   p100     hist
+##      1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     64 &lt;U+2581&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     10 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     10 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##  89900 &lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     13 &lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+## 
+## -- Variable type:numeric ------------------------------------------------------------------------------
+##  variable missing complete    n      mean       sd       p0      p25
+##     CLAGE       0     3364 3364    180.99    82.77     0.49   118.69
+##   DEBTINC       0     3364 3364     34.14     7.95     0.84    29.36
+##   MORTDUE       0     3364 3364  76249.62 45095.37  5076    49351.25
+##     VALUE       0     3364 3364 107501.39 54728.24 21144    71235   
+##       YOJ       0     3364 3364      9.11     7.6      0        3   
+##       p50       p75      p100     hist
+##    176.74    230.4    1168.23 &lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##     35.13     39.09    144.19 &lt;U+2581&gt;&lt;U+2587&gt;&lt;U+2586&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##  67278.5   92986.75  4e+05    &lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##  94453.5  122339.25 512650    &lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+##      7        13        41    &lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2583&gt;&lt;U+2582&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;</code></pre>
+<pre class="r"><code>cc %&gt;%  count(BAD)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##     BAD     n
+##   &lt;int&gt; &lt;int&gt;
+## 1     0  3064
+## 2     1   300</code></pre>
+<pre class="r"><code>hmeq %&gt;% count(BAD)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##     BAD     n
+##   &lt;int&gt; &lt;int&gt;
+## 1     0  4771
+## 2     1  1189</code></pre>
+<pre class="r"><code>library(recipes)
+library(glue)</code></pre>
+<pre><code>## Warning: package &#39;glue&#39; was built under R version 3.5.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;glue&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     collapse</code></pre>
+<pre class="r"><code>hmeq &lt;- hmeq %&gt;%  mutate(jake = glue(&quot;{BAD}{LOAN}&quot;) ,jake2 = glue(&quot;{BAD}{LOAN} jake {LOAN}&quot;)   )</code></pre>

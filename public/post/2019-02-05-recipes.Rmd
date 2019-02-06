@@ -1,0 +1,56 @@
+---
+title: Recipes
+subtitle: working doc
+author: Jacob Lowell
+date: '2019-02-05'
+slug: recipes
+categories: []
+tags:
+  - recipes
+  - model
+# description: ''
+# output: 
+#   html_document:
+#     theme: cosmo
+#     highlight: monochrome
+#     toc: true
+#     toc_float: false
+#     toc_depth: 4
+#     number_sections: true
+#     code_folding: hide
+---
+ 
+ 
+```{r , echo=FALSE}
+library(tidyverse)
+library(recipes)
+hmeq <- read_csv("hmeq.csv")
+cc <-  hmeq[complete.cases(hmeq) ,]
+```
+
+
+```{r}
+library(skimr)
+skim(hmeq)
+skim(cc)
+```
+
+
+```{r}
+cc %>%  count(BAD)
+
+hmeq %>% count(BAD)
+```
+
+
+
+```{r}
+library(recipes)
+library(glue)
+```
+
+
+```{r}
+hmeq <- hmeq %>%  mutate(jake = glue("{BAD}{LOAN}") ,jake2 = glue("{BAD}{LOAN} jake {LOAN}")   )
+```
+
