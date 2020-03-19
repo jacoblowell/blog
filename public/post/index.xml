@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>My Name</copyright>
-    <lastBuildDate>Tue, 05 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>See if this shows up</title>
+      <link>/2020/03/18/2020-03-18-see-if-this-shows-up/</link>
+      <pubDate>Wed, 18 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/03/18/2020-03-18-see-if-this-shows-up/</guid>
+      <description> 6+6 ## [1] 12 </description>
+    </item>
     
     <item>
       <title>Recipes</title>
