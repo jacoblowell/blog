@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Jake learning toolbox</title>
@@ -18,7 +18,7 @@
       <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/02/05/2019-02-05-recipes/</guid>
-      <description>## -- Attaching packages -------------------------------------------------------------- tidyverse 1.2.1 --## v ggplot2 3.1.0 v purrr 0.3.0## v tibble 2.0.1 v dplyr 0.7.8## v tidyr 0.8.1 v stringr 1.3.1## v readr 1.1.1 v forcats 0.3.0## Warning: package &amp;#39;ggplot2&amp;#39; was built under R version 3.5.2## Warning: package &amp;#39;tibble&amp;#39; was built under R version 3.5.2## Warning: package &amp;#39;purrr&amp;#39; was built under R version 3.5.2## Warning: package &amp;#39;dplyr&amp;#39; was built under R version 3.</description>
+      <description>## -- Attaching packages -------------------------------------------------------------- tidyverse 1.2.1 -- ## v ggplot2 3.1.0 v purrr 0.3.0 ## v tibble 2.0.1 v dplyr 0.7.8 ## v tidyr 0.8.1 v stringr 1.3.1 ## v readr 1.1.1 v forcats 0.3.0 ## Warning: package &amp;#39;ggplot2&amp;#39; was built under R version 3.5.2 ## Warning: package &amp;#39;tibble&amp;#39; was built under R version 3.5.2 ## Warning: package &amp;#39;purrr&amp;#39; was built under R version 3.5.2 ## Warning: package &amp;#39;dplyr&amp;#39; was built under R version 3.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/01/01/2019-01-01-compare-class-imbalance-methods/</guid>
-      <description>library(rpart)library(tidyverse)## -- Attaching packages --------------------------------------------------- tidyverse 1.2.1 --## v ggplot2 3.0.0 v purrr 0.2.4## v tibble 1.4.2 v dplyr 0.7.5## v tidyr 0.8.1 v stringr 1.3.1## v readr 1.1.1 v forcats 0.3.0## -- Conflicts ------------------------------------------------------ tidyverse_conflicts() --## x dplyr::filter() masks stats::filter()## x dplyr::lag() masks stats::lag()Remove variables that contain missing values, because they do not work well with ROSE for oversamplingtraining_data &amp;lt;- training_data %&amp;gt;% select(- MonthlyIncome , - NumberOfDependents)testing_data &amp;lt;- testing_data %&amp;gt;% select(- MonthlyIncome , - NumberOfDependents)table(training_data$SeriousDlqin2yrs)## ## 0 1 ## 73484 5266prop.</description>
+      <description>library(rpart) library(tidyverse) ## -- Attaching packages --------------------------------------------------- tidyverse 1.2.1 -- ## v ggplot2 3.0.0 v purrr 0.2.4 ## v tibble 1.4.2 v dplyr 0.7.5 ## v tidyr 0.8.1 v stringr 1.3.1 ## v readr 1.1.1 v forcats 0.3.0 ## -- Conflicts ------------------------------------------------------ tidyverse_conflicts() -- ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() Remove variables that contain missing values, because they do not work well with ROSE for oversampling training_data &amp;lt;- training_data %&amp;gt;% select(- MonthlyIncome , - NumberOfDependents) testing_data &amp;lt;- testing_data %&amp;gt;% select(- MonthlyIncome , - NumberOfDependents) table(training_data$SeriousDlqin2yrs) ## ## 0 1 ## 73484 5266 prop.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       <pubDate>Fri, 28 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/12/28/2018-12-28-ml-in-tidyverse/</guid>
-      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)```</description>
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;% ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) + geom_point() + scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar) ```</description>
     </item>
     
     <item>
@@ -45,7 +45,7 @@
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</guid>
-      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;% ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) + geom_point() + scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar) oversampling, unsersampling
 These programs do not work well with missing values. They only are able to resample for complete cases.
 *** level the dataset ***</description>
     </item>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Course Imbalance on Jake learning toolbox</title>
@@ -18,7 +18,7 @@
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/12/26/2018-12-26-oversampling-undersampling-and-smote/</guid>
-      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;%ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) +geom_point() +scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar)oversampling, unsersampling
+      <description>hmeq %&amp;gt;% filter(!is.na(VALUE)) %&amp;gt;% ggplot( aes(x = VALUE, y = LOAN , color= factor(BAD))) + geom_point() + scale_color_manual(values = c(&amp;#39;dodgerblue&amp;#39;, &amp;#39;red&amp;#39;)) + facet_grid(~BAD) + labs(title = &amp;quot;Home Equity Loan Performance by loan amount and value of home&amp;quot;) +scale_y_continuous(labels = scales::dollar) + scale_x_continuous(labels = scales::dollar) oversampling, unsersampling
 These programs do not work well with missing values. They only are able to resample for complete cases.
 *** level the dataset ***</description>
     </item>
