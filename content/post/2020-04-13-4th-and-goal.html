@@ -1,0 +1,100 @@
+---
+title: 4th and Goal
+author: Jake Lowell
+date: '2020-04-13'
+slug: 4th-and-goal
+categories:
+  - Football
+tags:
+  - NFL
+description: 'In this post I explore goal to go data, and build a model to predict sucess on 4th and goal'
+---
+
+
+
+<div id="load-data-and-packages" class="section level3">
+<h3>Load data and packages</h3>
+</div>
+<div id="charts-for-data-exploration" class="section level3">
+<h3>Charts for data exploration</h3>
+<p><img src="/post/2020-04-13-4th-and-goal_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="/post/2020-04-13-4th-and-goal_files/figure-html/unnamed-chunk-3-2.png" width="672" /><img src="/post/2020-04-13-4th-and-goal_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2020-04-13-4th-and-goal_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2020-04-13-4th-and-goal_files/figure-html/unnamed-chunk-3-5.png" width="672" /></p>
+</div>
+<div id="what-is-sucess-rate-and-td-rate-from-each-downn" class="section level3">
+<h3>What is sucess rate and TD Rate from each downn ?</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="right">down</th>
+<th align="right">touchdown</th>
+<th align="right">n</th>
+<th align="right">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">2440</td>
+<td align="right">0.2741265</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">1909</td>
+<td align="right">0.3139803</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">1308</td>
+<td align="right">0.3490793</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">218</td>
+<td align="right">0.4299803</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="right">down</th>
+<th align="right">success</th>
+<th align="right">n</th>
+<th align="right">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">3958</td>
+<td align="right">0.4446691</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="right">2577</td>
+<td align="right">0.4238487</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">1446</td>
+<td align="right">0.3859087</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">229</td>
+<td align="right">0.4516765</td>
+</tr>
+</tbody>
+</table>
+</div>

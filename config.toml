@@ -19,7 +19,7 @@ googleAnalytics = "UA-163416155-1"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [Author]
-    name = "My Name"
+    name = "Jake Lowell"
     profile = "https://google.com/+XXX"
 
 [Taxonomies]
