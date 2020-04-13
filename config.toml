@@ -1,5 +1,5 @@
 baseurl = "/"
-title = "Jake learning toolbox"
+title = "Jacob Lowell - Blog"
 theme = "ghostwriter"
 languageCode = "en-us"
 copyright = "My Name"
@@ -27,11 +27,11 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [Params]
     intro = true
-    headline = "Jacob Lowell Site for notes"
-    description = "Place to log examples from DataCamp for future use"
+    headline = "Blog"
+    description = "Site for data analysis"
     github = "https://github.com/jacoblowell"
     #gitlab = "https://gitlab.com/XXX"
-    #linkedin = "https://linkedin.com/in/XXX/"
+    linkedin = "https://www.linkedin.com/in/jacob-lowell-47809712b/"
     #gplus = "https://google.com/+XXX"
     twitter = "https://twitter.com/lowell_jacob"
     #stackoverflow = "https://stackoverflow.com/users/XXX/YYY"
@@ -39,8 +39,8 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     opengraph = true
     shareTwitter = true
     shareFacebook = true
-    shareGooglePlus = true
-    shareLinkedIn = false
+    shareGooglePlus = false
+    shareLinkedIn = true
     dateFormat = "Mon, Jan 2, 2006"
     highlightJsUrl = ""
     highlightJsLocalUrl = ""

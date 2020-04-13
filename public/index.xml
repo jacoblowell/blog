@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Jake learning toolbox</title>
+    <title>Jacob Lowell - Blog</title>
     <link>/</link>
-    <description>Recent content on Jake learning toolbox</description>
+    <description>Recent content on Jacob Lowell - Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>My Name</copyright>
-    <lastBuildDate>Thu, 19 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>April 13 Post for testing</title>
+      <link>/2020/04/12/2020-04-12-april-13-post-for-testing/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/12/2020-04-12-april-13-post-for-testing/</guid>
+      <description> 8+13 ## [1] 21 </description>
+    </item>
     
     <item>
       <title>new post try</title>
@@ -22,22 +31,13 @@
     </item>
     
     <item>
-      <title>This project</title>
-      <link>/project/my-awesome-project/</link>
-      <pubDate>Wed, 26 Dec 2018 00:00:00 -0500</pubDate>
-      
-      <guid>/project/my-awesome-project/</guid>
-      <description>About project This project is to help me remember code and concepts from DataCamp courses
-Install go get -u -v github.com/jacoblowell/Toolbox Docs https://github.com/jacoblowell/Toolbox</description>
-    </item>
-    
-    <item>
       <title>About</title>
       <link>/page/about/</link>
       <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
       
       <guid>/page/about/</guid>
-      <description>About Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec dolor in magna lobortis egestas. Suspendisse eu erat tempor, tristique neque eu, convallis nulla. Curabitur vel bibendum lacus, at semper mauris. Suspendisse aliquet commodo ex, sed sagittis metus aliquam id. Maecenas feugiat rutrum lorem vel imperdiet. Nullam ornare lectus ut enim finibus, et porttitor mi tincidunt. Aenean lacinia, leo quis vehicula eleifend, quam libero sagittis erat, at euismod augue mauris et sapien.</description>
+      <description>About I live in Freeport Maine. I enjoy the outdoors, as well as using data and information to make decisions under uncertainty.
+School I am formally educated in statistics, business and economics.</description>
     </item>
     
     <item>
@@ -46,7 +46,7 @@ Install go get -u -v github.com/jacoblowell/Toolbox Docs https://github.com/jaco
       <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
       
       <guid>/page/contact/</guid>
-      <description>Contact Aenean ipsum justo, semper eu nisl ut, pretium tincidunt sem. Praesent et diam sit amet lacus lobortis dictum a id lacus. Quisque hendrerit sit amet turpis eu varius. Ut id lorem ac felis ultrices tincidunt. Pellentesque consequat arcu ac fringilla imperdiet. Phasellus pellentesque, sapien non pulvinar blandit, sapien ante aliquet felis, vel porttitor sapien ante in lacus. Fusce non urna aliquet, malesuada nibh vel, luctus urna. Phasellus ut lacus molestie, varius purus quis, malesuada lorem.</description>
+      <description>Contact You can reach me via e-mail at: JakeLowell@gmail.com</description>
     </item>
     
   </channel>
