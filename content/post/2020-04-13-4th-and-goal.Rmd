@@ -12,7 +12,7 @@ description: 'In this post I explore goal to go data, and build a model to predi
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE , message = FALSE)
 ```
 
 
@@ -28,11 +28,14 @@ library(tidymodels)
 
 # 1. Load Play by play data -----
 
-play_by_play_2009_2012 <- readRDS( "NFL_Play_by_Play_2009_2012.rds")
 
-play_by_play_2013_2015 <- readRDS( "NFL_Play_by_Play_2013_2015.rds")
+hmeq <- read_csv("~/Desktop/Blog/static/data/hmeq.csv")
 
-play_by_play_2016_2019 <- readRDS( "NFL_Play_by_Play_2016_2019.rds")
+play_by_play_2009_2012 <- readRDS( "~/Desktop/Blog/static/data/NFL_Play_by_Play_2009_2012.rds")
+
+play_by_play_2013_2015 <- readRDS( "~/Desktop/Blog/static/data/NFL_Play_by_Play_2013_2015.rds")
+
+play_by_play_2016_2019 <- readRDS( "~/Desktop/Blog/static/data/NFL_Play_by_Play_2016_2019.rds")
 
 
 play_by_play <- play_by_play_2009_2012 %>%  bind_rows(play_by_play_2013_2015 , play_by_play_2016_2019 )
@@ -141,6 +144,8 @@ fourth_and_goal  <-   pbp_all_rp %>%  filter(down == 4 & goal_to_go ==1 )
 
 
 ```{r}
+
+
 
 data <- fourth_and_goal
 
