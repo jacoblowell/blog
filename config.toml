@@ -1,10 +1,10 @@
 baseurl = "/"
-title = "Jacob Lowell - Blog"
+title = "Jake Lowell - Blog"
 theme = "ghostwriter"
 languageCode = "en-us"
-copyright = "My Name"
+copyright = "Jake Lowell"
 disqusShortname = "XXX"
-googleAnalytics = "XXX"
+googleAnalytics = "UA-163416155-1"
 
 [Privacy]
 
