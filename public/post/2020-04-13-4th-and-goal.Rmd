@@ -7,12 +7,12 @@ categories:
   - Football
 tags:
   - NFL
-description: 'In this post I explore goal to go data, and build a model to predict sucess on 4th and goal'
+description: 'In this post I explore goal to go data, and build a model to predict success on 4th and goal'
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE , message = FALSE)
+knitr::opts_chunk$set(echo = FALSE , message = FALSE  , warning = FALSE)
 ```
 
 
@@ -24,7 +24,7 @@ library(tidyverse)
 library(tidyquant)
 library(glue)
 library(tidymodels)
-
+library(plotly)
 
 # 1. Load Play by play data -----
 
@@ -50,27 +50,16 @@ play_by_play <- play_by_play_2009_2012 %>%  bind_rows(play_by_play_2013_2015 , p
 
 
 
-
-
-
-
-### Load data and packages
-
 ```{r    message  = FALSE}
 
-library(tidyverse)
-library(tidyquant)
-library(glue)
-library(tidymodels)
 
 
-
-
+label_wrap <- label_wrap_gen(width = 60)
 #source("scripts/Load data - pass and run plays.R")
 
 # 5  filter so that we have only run and pass data ----
 
-pbp_all_rp <- play_by_play   %>% select(  touchdown ,  td_prob , play_type , down, goal_to_go, desc , yardline_100 , yards_gained , td_team, epa, play_id, game_id, home_team, away_team, posteam, posteam_type, game_date, half_seconds_remaining , game_seconds_remaining, game_half , drive, sp, qtr, ydstogo , shotgun, no_huddle, qb_dropback, qb_scramble, pass_location, air_yards, run_location, run_gap ,posteam_timeouts_remaining , defteam_timeouts_remaining ,  ep , total_home_epa, total_away_epa, total_home_rush_epa , total_home_pass_epa , total_away_pass_epa , total_away_rush_epa ,  wp , def_wp , score_differential , posteam_score , defteam_score  , week , season ,   first_down_pass , first_down_rush , third_down_converted , fourth_down_converted  , passer_player_name , receiver_player_name  , rusher_player_name) %>% 
+pbp_all_rp <- play_by_play    %>%  select(  touchdown ,  td_prob , play_type , down, goal_to_go, desc , yardline_100 , yards_gained , td_team, epa, play_id, game_id, home_team, away_team, posteam, posteam_type, game_date, half_seconds_remaining , game_seconds_remaining, game_half , drive, sp, qtr, ydstogo , shotgun, no_huddle, qb_dropback, qb_scramble, pass_location, air_yards, run_location, run_gap ,posteam_timeouts_remaining , defteam_timeouts_remaining ,  ep , total_home_epa, total_away_epa, total_home_rush_epa , total_home_pass_epa , total_away_pass_epa , total_away_rush_epa ,  wp , def_wp , score_differential , posteam_score , defteam_score  , week , season ,   first_down_pass , first_down_rush , third_down_converted , fourth_down_converted  , passer_player_name , receiver_player_name  , rusher_player_name) %>% 
   filter(td_prob > 0 )%>% 
   filter(!is.na(epa), !is.na(posteam), play_type=="no_play" | play_type=="pass" | play_type=="run") %>%
   mutate(
@@ -94,34 +83,9 @@ pbp_all_rp <- play_by_play   %>% select(  touchdown ,  td_prob , play_type , dow
   )  %>% 
   filter(play_type %in% c("run" , "pass")  | pass==1 | rush==1)  %>% 
   select(pass , td_prob  ,rush, play_type , down , goal_to_go , desc , yardline_100   , yards_gained , td_team , td_prob , epa   ,everything()) %>% 
-  filter( season != 2019) %>%  mutate_if(is.character , factor ) %>% select(-game_date)
+  filter( season != 2019) %>%  mutate_if(is.character , factor ) %>% select(-game_date) %>% 
+  mutate(play_desc =  str_glue(" Play: {label_wrap(desc)}"))
  #added play_type %in% c("run" , "pass") because this incluesd real plays where run/pass criteria is not satified in description
-
-test <- play_by_play   %>% select(  touchdown ,  td_prob , play_type , down, goal_to_go, desc , yardline_100 , yards_gained , td_team, epa, play_id, game_id, home_team, away_team, posteam, posteam_type, game_date, half_seconds_remaining , game_seconds_remaining, game_half , drive, sp, qtr, ydstogo , shotgun, no_huddle, qb_dropback, qb_scramble, pass_location, air_yards, run_location, run_gap ,posteam_timeouts_remaining , defteam_timeouts_remaining ,  ep , total_home_epa, total_away_epa, total_home_rush_epa , total_home_pass_epa , total_away_pass_epa , total_away_rush_epa ,  wp , def_wp , score_differential , posteam_score , defteam_score  , week , season ,   first_down_pass , first_down_rush , third_down_converted , fourth_down_converted  , passer_player_name , receiver_player_name  , rusher_player_name) %>% 
-  filter(td_prob > 0 )%>% 
-  filter(!is.na(epa), !is.na(posteam), play_type=="no_play" | play_type=="pass" | play_type=="run") %>%
-  mutate(
-    pass = if_else(str_detect(desc, "( pass)|(sacked)|(scramble)"), 1, 0),
-    rush = if_else(str_detect(desc, "(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)") & pass == 0, 1, 0),
-    success = ifelse(epa>0, 1 , 0),
-    passer_player_name = ifelse(play_type == "no_play" & pass == 1, 
-                                str_extract(desc, "(?<=\\s)[A-Z][a-z]*\\.\\s?[A-Z][A-z]+(\\s(I{2,3})|(IV))?(?=\\s((pass)|(sack)|(scramble)))"),
-                                passer_player_name),
-    receiver_player_name = ifelse(play_type == "no_play" & str_detect(desc, "pass"), 
-                                  str_extract(desc, "(?<=to\\s)[A-Z][a-z]*\\.\\s?[A-Z][A-z]+(\\s(I{2,3})|(IV))?"),
-                                  receiver_player_name),
-    rusher_player_name = ifelse(play_type == "no_play" & rush == 1, 
-                                str_extract(desc, "(?<=\\s)[A-Z][a-z]*\\.\\s?[A-Z][A-z]+(\\s(I{2,3})|(IV))?(?=\\s((left end)|(left tackle)|(left guard)|	 (up the middle)|(right guard)|(right tackle)|(right end)))"),
-                                rusher_player_name),
-    name = ifelse(!is.na(passer_player_name), passer_player_name, rusher_player_name),
-    yards_gained=ifelse(play_type=="no_play",NA,yards_gained),
-    play=1  , TD_Scored = ifelse(!is.na(td_team) , "Touchdown" , "No Touchdown")  ,
-    Scored_TD = case_when(td_team == posteam ~  "Touchdown" ,
-                          is.na(td_team)  ~ "Not Touchdown"  , TRUE ~ "Touchdown Other Team")
-  )  %>% 
-  filter(play_type %in% c("run" , "pass")  | pass==1 | rush==1)  %>% 
-  select(pass , td_prob  ,rush, play_type , down , goal_to_go , desc , yardline_100   , yards_gained , td_team , td_prob , epa   ,everything()) %>% 
-  filter( season == 2019) %>%  mutate_if(is.character , factor ) %>% select(-game_date)
 
 ##  breakout by each down
 
@@ -138,81 +102,111 @@ fourth_and_goal  <-   pbp_all_rp %>%  filter(down == 4 & goal_to_go ==1 )
 ```
 
 
+I am using data from the [nflscrapR](https://arxiv.org/abs/1802.00998) package to investigate offensive success on goal to go situations on different downs.
 
 
-###  Charts for data exploration 
+## 
 
+
+
+## Figure 1.
+
+```{r}
+
+four_downs <-  pbp_all_rp    %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,y = td_prob,     color = TD_Scored )) + geom_point(aes(text = play_desc)) + theme_tq() + 
+  labs(    title = glue("Expected points added by Touchdown Probability"             )  ,
+       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
+scale_y_continuous(labels = scales::percent)  + facet_grid(~down  , scales = "free")
+
+ggplotly(four_downs)
+```
+
+
+## Figure 2.
 
 ```{r}
 
 
 
-data <- fourth_and_goal
+pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x =epa ,     fill = TD_Scored )) + geom_histogram() + theme_tq() + 
+  labs(title = glue("Separation between successful and unsuccessful plays becomes more pronounced at later downs"             )  ,
+       x = "Expected Points Added" , y = "Plays"  ,  fill = "") + scale_color_tq() +
+scale_y_continuous(labels = scales::comma)  + facet_grid(~down  )
 
-data %>%  ggplot(aes( x = epa ,  y = td_prob  , color = TD_Scored )) + geom_point() + theme_tq() +
-  labs(title = glue("Expected points by Touchdown probability \n First Down")  ,
-       x = "Expected Points Added" , y = "Touchdown Probability") + scale_color_tq() +
-scale_y_continuous(labels = scales::percent)
-
-
-
-
-pbp_all_rp   %>%    filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,  y = td_prob  , color = Scored_TD )) + geom_point() + theme_tq() + 
-  labs(title = glue("Goal to go - Expected points added by Touchdown probability \n By down - 2009 to 2019"
-                    )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability") + scale_color_tq() +
-scale_y_continuous(labels = scales::percent)  + facet_grid(~down)
-
-
-pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,  y = td_prob  , color = as.factor(success) )) + geom_point() + theme_tq() + 
-  labs(title = glue("Goal to go - Expected points added by Touchdown probability \n By down - 2009 to 2019"
-                    )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability") + scale_color_tq() +
-scale_y_continuous(labels = scales::percent)  + facet_grid(Scored_TD~down)
-
-
-
-###  histograms
-
-
-pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,     fill = as.factor(Scored_TD) )) + geom_histogram() + theme_tq() + 
-  labs(title = glue("Goal to go - Expected points added by Touchdown probability \n By down - 2009 to 2019"
-                    )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability") + scale_color_tq() +
-scale_y_continuous(labels = scales::comma)  + facet_grid(Scored_TD~down  , scales = "free")
-
-
-
-pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x =td_prob ,     fill = as.factor(Scored_TD) )) + geom_histogram() + theme_tq() + 
-  labs(title = glue("Goal to go - Expected points added by Touchdown probability \n By down - 2009 to 2019 \ A lot of the scores are from higher probabilty of score spots"
-                    )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability") + scale_color_tq() +
-scale_y_continuous(labels = scales::comma)  + facet_grid(Scored_TD~down  , scales = "free")
-
-
-pos <- fourth_and_goal %>%  filter(epa > 1 & Scored_TD != "Touchdown") %>%  count(Scored_TD)
-
-#td_other <- pbp_all_rp %>%  filter(Scored_TD == "Touchdown Other Team" & epa > 4)
-
-
-fourth_sucess_notTD <- fourth_and_goal %>%  filter(success == 1 & Scored_TD == "Not Touchdown")
 
 ```
 
 
+
+## Table 1. 
+
+
+```{r}
+pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% group_by(down) %>% summarise(Average_EPA = mean(epa)   , Median_EPA = median(epa)) %>% 
+  knitr::kable(digits = 2 , caption = "Goal to go - Average and median Expected points added by down")
+```
+
+
+If we define sucess as a play with a positive value for excepted points added (epa), we can see 
+
+## Table 2.
 
 
 ###  What is sucess rate and TD Rate from each downn  ?
 
 ```{r}
-pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, touchdown  ) %>%  group_by( down) %>% mutate(pct = n / sum(n)) %>% ungroup() %>% 
-  filter(touchdown ==1) %>%  knitr::kable()
+pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, touchdown  ) %>%  group_by( down) %>% mutate(`Touchdown Rate` = n / sum(n)) %>% ungroup() %>% 
+  #filter(touchdown ==1) %>%  
+  knitr::kable()
 
 
-pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, success  ) %>%  group_by( down) %>% mutate(pct = n / sum(n)) %>% ungroup() %>%
-  filter(success ==1) %>% knitr::kable()
+pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, success  ) %>%  group_by( down) %>% mutate( `Success Rate`= n / sum(n)) %>% ungroup() %>%
+ # filter(success ==1) %>% 
+  knitr::kable()
 
 ```
+
+
+
+
+# Chart 3.
+
+
+```{r}
+
+four_downs <-  pbp_all_rp  %>% filter(play_type =="no_play")  %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,y = td_prob,     color = TD_Scored )) + geom_point(aes(text = play_desc)) + theme_tq() + 
+  labs(    title = glue("No Play -- Expected points added by Touchdown Probability"             )  ,
+       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
+scale_y_continuous(labels = scales::percent)  + facet_grid(~down  , scales = "free")
+
+ggplotly(four_downs)
+```
+
+
+
+# Chart 3.
+
+
+```{r}
+
+four_downs <-  pbp_all_rp  %>% filter(play_type =="no_play")  %>%   filter(down >0  & goal_to_go == 1 ) %>% 
+ ggplot(aes( x = epa ,    color = TD_Scored )) + geom_histogram() + theme_tq() + 
+  labs(    title = glue("No Play -- Expected points added by Touchdown Probability"             )  ,
+       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
+scale_y_continuous(labels = scales::comma)  + facet_wrap(~down  , scales = "free")
+
+four_downs
+
+ggplotly(four_downs)
+```
+
+
+
+
+
+
+
+
 
 
 
