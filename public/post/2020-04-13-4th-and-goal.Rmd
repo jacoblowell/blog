@@ -12,7 +12,7 @@ description: 'In this post I explore goal to go data, and build a model to predi
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE , message = FALSE  , warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE , message = FALSE  , warning = FALSE , fig.width = 8 , fig.height = 5)
 ```
 
 
@@ -84,7 +84,13 @@ pbp_all_rp <- play_by_play    %>%  select(  touchdown ,  td_prob , play_type , d
   filter(play_type %in% c("run" , "pass")  | pass==1 | rush==1)  %>% 
   select(pass , td_prob  ,rush, play_type , down , goal_to_go , desc , yardline_100   , yards_gained , td_team , td_prob , epa   ,everything()) %>% 
   filter( season != 2019) %>%  mutate_if(is.character , factor ) %>% select(-game_date) %>% 
-  mutate(play_desc =  str_glue(" Play: {label_wrap(desc)}"))
+   mutate(play_desc = str_glue("Play: {label_wrap(desc)}"))
+                                     
+
+# Expected Points Added: {round(epa, digits = 2)}
+#                                      Touchdown Probability: {round(td_prob, digits = 2)}
+#                                      Touchdown: {Scored_TD}"))
+  #mutate(play_desc =  str_glue(" Play: {label_wrap(desc)}"))
  #added play_type %in% c("run" , "pass") because this incluesd real plays where run/pass criteria is not satified in description
 
 ##  breakout by each down
