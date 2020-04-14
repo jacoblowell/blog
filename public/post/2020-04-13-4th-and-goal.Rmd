@@ -12,14 +12,16 @@ description: 'In this post I explore goal to go data, and build a model to predi
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE , message = FALSE  , warning = FALSE , fig.width = 8 , fig.height = 5)
+knitr::opts_chunk$set(echo = FALSE , message = FALSE  , warning = FALSE )
+
+#, fig.width = 8 , fig.height = 5
 ```
 
 
 
 ```{r  message  = FALSE}
 
-
+library(gt)
 library(tidyverse)
 library(tidyquant)
 library(glue)
@@ -29,7 +31,6 @@ library(plotly)
 # 1. Load Play by play data -----
 
 
-hmeq <- read_csv("~/Desktop/Blog/static/data/hmeq.csv")
 
 play_by_play_2009_2012 <- readRDS( "~/Desktop/Blog/static/data/NFL_Play_by_Play_2009_2012.rds")
 
@@ -111,78 +112,110 @@ fourth_and_goal  <-   pbp_all_rp %>%  filter(down == 4 & goal_to_go ==1 )
 I am using data from the [nflscrapR](https://arxiv.org/abs/1802.00998) package to investigate offensive success on goal to go situations on different downs.
 
 
-## 
-
-
-
-## Figure 1.
 
 ```{r}
-
-four_downs <-  pbp_all_rp    %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,y = td_prob,     color = TD_Scored )) + geom_point(aes(text = play_desc)) + theme_tq() + 
-  labs(    title = glue("Expected points added by Touchdown Probability"             )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
-scale_y_continuous(labels = scales::percent)  + facet_grid(~down  , scales = "free")
-
-ggplotly(four_downs)
+# 
+# four_downs <-  pbp_all_rp    %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,y = td_prob,     color = TD_Scored )) + geom_point(aes(text = play_desc)) + theme_tq() + 
+#   labs(    title = glue("Expected points added by Touchdown Probability"             )  ,
+#        x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
+# scale_y_continuous(labels = scales::percent)  + facet_grid(~down  , scales = "free")
+# 
+# ggplotly(four_downs)
 ```
 
 
-## Figure 2.
+
+
+
+
+### Figure 1.
 
 ```{r}
-
-
 
 pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x =epa ,     fill = TD_Scored )) + geom_histogram() + theme_tq() + 
-  labs(title = glue("Separation between successful and unsuccessful plays becomes more pronounced at later downs"             )  ,
+  labs(title = glue("Goal to go - Distribution of expected points added for each down"             )  ,
        x = "Expected Points Added" , y = "Plays"  ,  fill = "") + scale_color_tq() +
-scale_y_continuous(labels = scales::comma)  + facet_grid(~down  )
+scale_y_continuous(labels = scales::comma)  + facet_wrap(~down   , scales = "free" )
 
 
 ```
 
 
 
-## Table 1. 
+
+
+
+
+
+
+
+
+
+
+
+
+If we define success as a play with a positive value for excepted points added (epa), we can see a nice split in good/bad distribution for 3rd and 4th down.  There is a decent split for second down as well.
+
+
+
+
+
+
+
+
+
+
 
 
 ```{r}
-pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% group_by(down) %>% summarise(Average_EPA = mean(epa)   , Median_EPA = median(epa)) %>% 
-  knitr::kable(digits = 2 , caption = "Goal to go - Average and median Expected points added by down")
+# pbp_all_rp %>%  filter(goal_to_go ==1) %>% filter(play_type != "no_play") %>%  count(down, touchdown  ) %>%  group_by( down) %>% mutate(`Touchdown Rate` = 
+#                 round(  n / sum(n)  , digits = 2) )%>% ungroup() %>% 
+#   filter(touchdown ==1) %>% select(down , `Touchdown Rate`) %>% left_join( pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, success  ) %>%  group_by( down) %>% mutate( `Success Rate`=    round (n / sum(n) , digits = 2)) %>% ungroup() %>%
+#  filter(success ==1)   )  %>% select(-success , - n)  %>% left_join(pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% group_by(down) %>% summarise(`Mean Expected Points Added` =  round(mean(epa) , digits = 2)   , `Median Expected Points Added` = round(median(epa) , digits = 2)) )   %>% DT::datatable() %>% DT::formatPercentage(c("Touchdown Rate" , "Success Rate"))
 ```
 
 
-If we define sucess as a play with a positive value for excepted points added (epa), we can see 
-
-## Table 2.
 
 
-###  What is sucess rate and TD Rate from each downn  ?
+
 
 ```{r}
-pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, touchdown  ) %>%  group_by( down) %>% mutate(`Touchdown Rate` = n / sum(n)) %>% ungroup() %>% 
-  #filter(touchdown ==1) %>%  
-  knitr::kable()
-
-
-pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, success  ) %>%  group_by( down) %>% mutate( `Success Rate`= n / sum(n)) %>% ungroup() %>%
- # filter(success ==1) %>% 
-  knitr::kable()
-
+pbp_all_rp %>%  filter(goal_to_go ==1) %>% filter(play_type != "no_play") %>%  count(down, touchdown  ) %>%  group_by( down) %>% mutate(`Touchdown Rate` = 
+                round(  n / sum(n)  , digits = 3) )%>% ungroup() %>% 
+  filter(touchdown ==1) %>% select(down , `Touchdown Rate`) %>% left_join( pbp_all_rp %>%  filter(goal_to_go ==1) %>%  count(down, success  ) %>%  group_by( down) %>% mutate( `Success Rate`=    round (n / sum(n) , digits = 3)) %>% ungroup() %>%
+ filter(success ==1)   )  %>% select(-success , - n)  %>% left_join(pbp_all_rp   %>%   filter(down >0 & goal_to_go == 1) %>% group_by(down) %>% summarise(`Mean Expected Points Added` =  round(mean(epa) , digits = 2)   , `Median Expected Points Added` = round(median(epa) , digits = 2)) )   %>% gt() %>%
+  fmt_percent(columns = vars(`Touchdown Rate` , `Success Rate`) , decimals = 1)  %>% tab_header(
+    title = md("Goal to goal Results"),
+    subtitle = ""
+  ) %>%
+  tab_source_note(md("Source: nflscrapR"))
 ```
 
 
 
 
-# Chart 3.
+
+
+
+
+We can hover over plays in  **Figure 2.** to see from the description of plays with penalties that penalties contribute to expected points added.  This means that a "no_play" with a penalty can be a positive or negative outcome, so I will include these plays in my "Success" models.  Since none of these plays result in a touchdown for the offence, I will exclude them from my touchdown and yardage modeling. 
+
+
+
+
+
+
+
+
+
+### Figure 2.
 
 
 ```{r}
 
-four_downs <-  pbp_all_rp  %>% filter(play_type =="no_play")  %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,y = td_prob,     color = TD_Scored )) + geom_point(aes(text = play_desc)) + theme_tq() + 
+four_downs <-  pbp_all_rp  %>% filter(play_type =="no_play")  %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x = epa ,y = td_prob )) + geom_point(aes(text = play_desc)) + theme_tq() + 
   labs(    title = glue("No Play -- Expected points added by Touchdown Probability"             )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
+       x = "Expected Points Added" , y = "Touchdown Probability" , caption = "Source: nflscrapR" ) + scale_color_tq() +
 scale_y_continuous(labels = scales::percent)  + facet_grid(~down  , scales = "free")
 
 ggplotly(four_downs)
@@ -190,20 +223,28 @@ ggplotly(four_downs)
 
 
 
-# Chart 3.
+
+
+
+
+
+
+### Figure 3.
 
 
 ```{r}
 
 four_downs <-  pbp_all_rp  %>% filter(play_type =="no_play")  %>%   filter(down >0  & goal_to_go == 1 ) %>% 
- ggplot(aes( x = epa ,    color = TD_Scored )) + geom_histogram() + theme_tq() + 
-  labs(    title = glue("No Play -- Expected points added by Touchdown Probability"             )  ,
-       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = "" ) + scale_color_tq() +
+ ggplot(aes( x = epa )) + geom_histogram() + theme_tq() + 
+  labs(    title = "No Play -- Distribution of Expected Points Added"            ,
+       x = "Expected Points Added" , y = "Touchdown Probability" ,  color = ""    , caption = "Source: nflscrapR" ) + scale_color_tq() +
 scale_y_continuous(labels = scales::comma)  + facet_wrap(~down  , scales = "free")
+
+#,    color = TD_Scored 
 
 four_downs
 
-ggplotly(four_downs)
+#ggplotly(four_downs)
 ```
 
 
