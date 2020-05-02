@@ -18,9 +18,8 @@
       <pubDate>Mon, 13 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/04/13/2020-04-13-4th-and-goal/</guid>
-      <description>I am using data from the nflscrapR package to investigate offensive success on goal to go situations on different downs.
-Figure 1. If we define success as a play with a positive value for excepted points added (epa), we can see a nice split in good/bad distribution for 3rd and 4th down. There is a decent split for second down as well.
-html { font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif; } #epqnuhfydz .</description>
+      <description>I am using data from the nflscrapR package to investigate offensive success on goal to go situations on different downs. I will perform exploratory data analysis and modeling on regular season game data from 2009-2018, and test the performance on 2019 regular season data.
+Section 1. Initial Analysis Figure 1. If we define success as a play with a positive value for excepted points added (epa), we can see a nice split in good/bad distribution for 3rd and 4th down.</description>
     </item>
     
   </channel>

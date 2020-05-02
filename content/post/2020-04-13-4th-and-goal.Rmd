@@ -41,6 +41,10 @@ play_by_play_2016_2019 <- readRDS( "~/Desktop/Blog/static/data/NFL_Play_by_Play_
 
 play_by_play <- play_by_play_2009_2012 %>%  bind_rows(play_by_play_2013_2015 , play_by_play_2016_2019 )
 
+play_by_play_train <- play_by_play %>%  filter(game_date  < "2019-05-01")
+
+play_by_play_test <- play_by_play %>%  filter(game_date  > "2019-05-01")
+
 
 ```
 
@@ -60,7 +64,7 @@ label_wrap <- label_wrap_gen(width = 60)
 
 # 5  filter so that we have only run and pass data ----
 
-pbp_all_rp <- play_by_play    %>%  select(  touchdown ,  td_prob , play_type , down, goal_to_go, desc , yardline_100 , yards_gained , td_team, epa, play_id, game_id, home_team, away_team, posteam, posteam_type, game_date, half_seconds_remaining , game_seconds_remaining, game_half , drive, sp, qtr, ydstogo , shotgun, no_huddle, qb_dropback, qb_scramble, pass_location, air_yards, run_location, run_gap ,posteam_timeouts_remaining , defteam_timeouts_remaining ,  ep , total_home_epa, total_away_epa, total_home_rush_epa , total_home_pass_epa , total_away_pass_epa , total_away_rush_epa ,  wp , def_wp , score_differential , posteam_score , defteam_score  , week , season ,   first_down_pass , first_down_rush , third_down_converted , fourth_down_converted  , passer_player_name , receiver_player_name  , rusher_player_name) %>% 
+pbp_all_rp <- play_by_play_train    %>%  select(  touchdown ,  td_prob , play_type , down, goal_to_go, desc , yardline_100 , yards_gained , td_team, epa, play_id, game_id, home_team, away_team, posteam, posteam_type, game_date, half_seconds_remaining , game_seconds_remaining, game_half , drive, sp, qtr, ydstogo , shotgun, no_huddle, qb_dropback, qb_scramble, pass_location, air_yards, run_location, run_gap ,posteam_timeouts_remaining , defteam_timeouts_remaining ,  ep , total_home_epa, total_away_epa, total_home_rush_epa , total_home_pass_epa , total_away_pass_epa , total_away_rush_epa ,  wp , def_wp , score_differential , posteam_score , defteam_score  , week , season ,   first_down_pass , first_down_rush , third_down_converted , fourth_down_converted  , passer_player_name , receiver_player_name  , rusher_player_name) %>% 
   filter(td_prob > 0 )%>% 
   filter(!is.na(epa), !is.na(posteam), play_type=="no_play" | play_type=="pass" | play_type=="run") %>%
   mutate(
@@ -109,9 +113,13 @@ fourth_and_goal  <-   pbp_all_rp %>%  filter(down == 4 & goal_to_go ==1 )
 ```
 
 
-I am using data from the [nflscrapR](https://arxiv.org/abs/1802.00998) package to investigate offensive success on goal to go situations on different downs.
 
 
+I am using data from the [nflscrapR](https://arxiv.org/abs/1802.00998) package to investigate offensive success on goal to go situations on different downs.  I will perform exploratory data analysis and modeling on regular season game data from 2009-2018, and test the performance on 2019 regular season data.
+
+
+
+# Section 1. Initial Analysis
 
 ```{r}
 # 
@@ -253,7 +261,451 @@ four_downs
 
 
 
+# Section 2. Predict Second and goal sucess rate
+
+
+Playcalling is important on second and goal.  Can we use data to help us predict offensive effectiveness on second and goal?
+
+
+# Figure 4.
+
+```{r}
+
+second_and_goal  %>%   filter(down >0 & goal_to_go == 1) %>% ggplot(aes( x =epa ,     fill = TD_Scored )) + geom_histogram() + theme_tq() + 
+  labs(title = glue("Goal to go - Distribution of expected points added for each down"             )  ,
+       x = "Expected Points Added" , y = "Plays"  ,  fill = "") + scale_color_tq() +
+scale_y_continuous(labels = scales::comma)  + facet_wrap(~down   , scales = "free" )
+
+```
 
 
 
+
+# Figure 5.
+
+```{r}
+
+second <- second_and_goal %>% filter(epa >0  & epa < 0.5) %>%   ggplot(aes( x = epa ,y = yards_gained  , color = TD_Scored)) + geom_point(aes(text = play_desc)) + theme_tq() + 
+  labs(    title = glue("Second & Goal -- Expected points added by Touchdown Probability"             )  ,
+       x = "Expected Points Added" , y = "Yards Gained" , caption = "Source: nflscrapR"   , color = "") + scale_color_tq() +
+scale_y_continuous(labels = scales::comma)  + facet_grid(~down  , scales = "free")
+
+ggplotly(second)
+```
+
+
+
+
+
+#  yards
+
+If we look at plays with expected points added with a positive value of less than 0.5, I am satisfied that these are positive results.  See Figure 4.
+
+
+# Figure 6.
+
+```{r}
+second_and_goal  %>%   filter(down >0 & goal_to_go == 1)  %>% ggplot(aes( x =yards_gained ,     fill = as.factor(success ))) + geom_histogram() + theme_tq() + 
+  labs(title = glue("Second and Goal - Distribution of yards gained \n Colored by Success"             )  ,
+       x = "Yards Gained" , y = "Plays"  ,  fill = "") + scale_color_tq() +
+scale_y_continuous(labels = scales::comma)  + facet_wrap(~TD_Scored   , scales = "free" )
+
+```
+
+
+
+Extract insight
+
+```{r}
+library(Information)
+options(scipen=999)
+
+IV <- create_infotables(data = second_and_goal , y = "success")
+
+knitr::kable(IV$Summary)
+
+
+
+```
+
+keep
+
+first_down_pass
+yardline_100
+total_home_epa
+total_away_epa
+	play_type
+		air_yards
+		qb_dropback
+		half_seconds_remaining
+			drive
+			pass_location
+			run_location
+			no_huddle
+
+
+```{r}
+
+
+#  maybe this was making the test set?    yeah, this makes 2019 only test sets
+#  i don't think this was necessary.   actually maybe it was! i need to wrap up and document work in the future, moving forward.!!!!!!!!
+
+pbp_all_test <- play_by_play_test   %>%  select(  touchdown ,  td_prob , play_type , down, goal_to_go, desc , yardline_100 , yards_gained , td_team, epa, play_id, game_id, home_team, away_team, posteam, posteam_type, game_date, half_seconds_remaining , game_seconds_remaining, game_half , drive, sp, qtr, ydstogo , shotgun, no_huddle, qb_dropback, qb_scramble, pass_location, air_yards, run_location, run_gap ,posteam_timeouts_remaining , defteam_timeouts_remaining ,  ep , total_home_epa, total_away_epa, total_home_rush_epa , total_home_pass_epa , total_away_pass_epa , total_away_rush_epa ,  wp , def_wp , score_differential , posteam_score , defteam_score  , week , season ,   first_down_pass , first_down_rush , third_down_converted , fourth_down_converted  , passer_player_name , receiver_player_name  , rusher_player_name) %>% 
+  filter(td_prob > 0 )%>% 
+  filter(!is.na(epa), !is.na(posteam), play_type=="no_play" | play_type=="pass" | play_type=="run") %>%
+  mutate(
+    pass = if_else(str_detect(desc, "( pass)|(sacked)|(scramble)"), 1, 0),
+    rush = if_else(str_detect(desc, "(left end)|(left tackle)|(left guard)|(up the middle)|(right guard)|(right tackle)|(right end)") & pass == 0, 1, 0),
+    success = ifelse(epa>0, 1 , 0),
+    passer_player_name = ifelse(play_type == "no_play" & pass == 1, 
+                                str_extract(desc, "(?<=\\s)[A-Z][a-z]*\\.\\s?[A-Z][A-z]+(\\s(I{2,3})|(IV))?(?=\\s((pass)|(sack)|(scramble)))"),
+                                passer_player_name),
+    receiver_player_name = ifelse(play_type == "no_play" & str_detect(desc, "pass"), 
+                                  str_extract(desc, "(?<=to\\s)[A-Z][a-z]*\\.\\s?[A-Z][A-z]+(\\s(I{2,3})|(IV))?"),
+                                  receiver_player_name),
+    rusher_player_name = ifelse(play_type == "no_play" & rush == 1, 
+                                str_extract(desc, "(?<=\\s)[A-Z][a-z]*\\.\\s?[A-Z][A-z]+(\\s(I{2,3})|(IV))?(?=\\s((left end)|(left tackle)|(left guard)|	 (up the middle)|(right guard)|(right tackle)|(right end)))"),
+                                rusher_player_name),
+    name = ifelse(!is.na(passer_player_name), passer_player_name, rusher_player_name),
+    yards_gained=ifelse(play_type=="no_play",NA,yards_gained),
+    play=1  , TD_Scored = ifelse(!is.na(td_team) , "Touchdown" , "No Touchdown")  ,
+    Scored_TD = case_when(td_team == posteam ~  "Touchdown" ,
+                          is.na(td_team)  ~ "Not Touchdown"  , TRUE ~ "Touchdown Other Team")
+  )  %>% 
+  filter(play_type %in% c("run" , "pass")  | pass==1 | rush==1)  %>% 
+  select(pass , td_prob  ,rush, play_type , down , goal_to_go , desc , yardline_100   , yards_gained , td_team , td_prob , epa   ,everything())  %>%  mutate_if(is.character , factor ) %>% select(-game_date) %>% 
+   mutate(play_desc = str_glue("Play: {label_wrap(desc)}"))
+                                     
+
+# Expected Points Added: {round(epa, digits = 2)}
+#                                      Touchdown Probability: {round(td_prob, digits = 2)}
+#                                      Touchdown: {Scored_TD}"))
+  #mutate(play_desc =  str_glue(" Play: {label_wrap(desc)}"))
+ #added play_type %in% c("run" , "pass") because this incluesd real plays where run/pass criteria is not satified in description
+
+##  breakout by each down
+
+
+
+
+first_and_goal_test <-  pbp_all_test %>%  filter(down == 1 & goal_to_go ==1 ) #%>% count(touchdown)
+
+second_and_goal_test <-  pbp_all_test %>%  filter(down == 2 & goal_to_go ==1 )
+
+third_and_goal_test <- pbp_all_test %>%  filter(down == 3 & goal_to_go ==1 )
+
+fourth_and_goal_test  <-   pbp_all_test %>%  filter(down == 4 & goal_to_go ==1 )
+```
+
+
+```{r}
+
+# second pass
+
+library(scorecard)
+
+train  <-  second_and_goal %>% select(
+  success ,
+  first_down_pass,
+  yardline_100,
+  total_home_epa,
+  #total_away_epa,
+  play_type,
+  air_yards,
+  qb_dropback,
+  half_seconds_remaining,
+  drive,
+  #pass_location,
+  #run_location,
+  no_huddle ,first_down_pass ,
+  first_down_rush ,
+  half_seconds_remaining ,
+  shotgun ,
+  drive ,
+  score_differential 
+)
+
+
+test  <-  second_and_goal_test %>% select(
+  success ,
+  first_down_pass,
+  yardline_100,
+  total_home_epa,
+ # total_away_epa,
+  play_type,
+  air_yards,
+  qb_dropback,
+  half_seconds_remaining,
+  drive,
+  #pass_location,
+  #run_location,
+  no_huddle ,first_down_pass ,
+  first_down_rush ,
+  half_seconds_remaining ,
+  shotgun ,
+  drive ,
+  score_differential 
+)
+
+
+
+
+
+filt <-  var_filter( train  , y = "success" )
+
+bins <- woebin(filt,  y = "success" )
+
+
+
+iv = iv(train, y = "success") %>%
+  as_tibble() %>%
+  mutate( info_value = round(info_value, 3) ) %>%
+  arrange( desc(info_value) )
+
+iv
+
+
+bins
+
+
+train_woe  <- woebin_ply(train , bins)
+
+
+
+test_woe  <- woebin_ply(test , bins)
+```
+
+
+
+
+<!-- ```{r warning= FALSE , message = FALSE} -->
+<!-- GGally::ggpairs( train ,aes(color =  as_factor(success))) -->
+<!-- ``` -->
+
+
+
+# correlationfunnel
+
+```{r}
+library(correlationfunnel)
+
+jj <- cor(train_woe)
+
+corr_table <- train_woe %>% correlate(success)  %>%  filter(feature != "success")
+
+corr_table %>%  plot_correlation_funnel(limits = c(-0.5 , 0.5))
+
+corr_table
+
+```
+
+
+
+
+
+
+
+# recipes
+
+```{r}
+
+library(tidymodels)
+
+set.seed(1234)
+
+train_woe<- train_woe %>%  mutate(Success = as_factor(success))
+
+train_woe%>% count(Success)
+
+
+test_woe <- test_woe %>%  mutate(Success = as_factor(success))
+
+test_woe %>% count(Success)
+
+
+
+second_rec <- recipe(Success ~ .  , data = train_woe) %>%
+  #step_downsample(Success) %>%  # class imbalence 
+  step_zv(all_numeric()) %>%
+  prep()
+
+second_rec 
+
+```
+
+
+
+```{r}
+train_tbl <-  bake(second_rec , new_data = train_woe)
+  
+test_tbl <- bake(second_rec , new_data = test_woe)
+```
+
+
+```{r}
+log_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+log_fit <- log_spec %>% fit(Success ~ . - success , data = train_tbl)
+
+log_fit %>%  tidy()
+
+
+
+
+
+tree_spec <- decision_tree() %>%
+  set_engine("rpart") %>%
+  set_mode("classification")
+
+tree_fit <- tree_spec %>%
+ fit(Success ~ . - success , data = train_tbl)
+
+tree_fit 
+
+
+
+```
+
+
+
+############
+
+
+
+
+
+```{r}
+
+set.seed(123)
+second_cv_folds <- train_tbl %>% 
+    bake(second_rec, new_data = .) %>%
+    vfold_cv(v = 5)
+
+
+predictions_glm <- log_fit  %>%
+    predict(new_data = test_tbl) %>%
+    bind_cols(test_tbl %>% select(Success , success))
+
+predictions_glm %>% head() %>% knitr::kable()
+
+
+```
+
+
+
+```{r}
+predictions_glm %>%
+    conf_mat(Success, .pred_class) %>%
+    pluck(1) %>%
+    as_tibble() %>%
+    
+    # Visualize with ggplot
+    ggplot(aes(Prediction, Truth, alpha = n)) +
+    geom_tile(show.legend = FALSE) +
+    geom_text(aes(label = n), colour = "white", alpha = 1, size = 8) + labs(title= "confustion matrix")
+```
+
+
+```{r}
+library(knitr)
+predictions_glm %>%
+    metrics(Success, .pred_class) %>%
+    select(-.estimator) %>%
+    filter(.metric == "accuracy") %>%
+    kable()
+
+test_tbl %>% count(Success)
+
+```
+
+
+<!-- ```{r} -->
+<!-- log_res <- fit_resamples( -->
+<!--  Success ~ ., -->
+<!--   log_fit, -->
+<!--   validation_splits, -->
+<!--   control = control_resamples(save_pred = TRUE)) -->
+
+
+<!-- knn_res %>% -->
+<!--   collect_metrics() -->
+<!-- ``` -->
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+# deal with later 
+ 
+
+<!-- ```{r} -->
+<!-- tibble( -->
+<!--     "precision" =  -->
+<!--         precision(predictions_glm, Success, .pred_class) %>% -->
+<!--         select(.estimate), -->
+<!--     "recall" =  -->
+<!--         recall(predictions_glm, Success, .pred_class) %>% -->
+<!--         select(.estimate) -->
+<!-- ) %>% -->
+<!--     unnest(cols = c(precision, recall)) %>% -->
+<!--     kable() -->
+<!-- ``` -->
+
+
+
+<!-- ```{r} -->
+<!-- roc_curve(predictions_glm , success , as.nu.pred_class) -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- predictions_glm %>% -->
+<!--     f_meas(Success, .pred_class) %>% -->
+<!--     select(-.estimator) %>% -->
+<!--     kable() -->
+<!-- ``` -->
+
+
+<!-- #  roc curve -->
+<!-- ```{r} -->
+
+
+<!-- log_res %>% -->
+<!--   unnest(.predictions) %>% -->
+<!--   mutate(model = "glm") %>% -->
+<!--   bind_rows(tree_res %>% -->
+<!--     unnest(.predictions) %>% -->
+<!--     mutate(model = "rpart")) %>% -->
+<!--   group_by(model) %>% -->
+<!--   roc_curve(Success, .pred_Success) %>% -->
+<!--   ggplot(aes(x = 1 - specificity, y = sensitivity, color = model)) + -->
+<!--   geom_line(size = 1.5) + -->
+<!--   geom_abline( -->
+<!--     lty = 2, alpha = 0.5, -->
+<!--     color = "gray50", -->
+<!--     size = 1.2 -->
+<!--   ) -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- knn_conf <- knn_res %>% -->
+<!--   unnest(.predictions) %>% -->
+<!--   conf_mat(children, .pred_class) -->
+
+<!-- knn_conf -->
+<!-- ``` -->
+
+
+
+<!-- ```{r} -->
+<!-- knn_conf %>% -->
+<!--   autoplot(type = "heatmap") + labs(title = "This is a nice little plot") -->
+
+<!-- ``` -->
 
