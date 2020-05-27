@@ -216,7 +216,7 @@ We can hover over plays in  **Figure 2.** to see from the description of plays w
 
 
 
-### Figure 2.
+### Figure 2 ---  Positive plays that do not go for a touchdown.
 
 
 ```{r}

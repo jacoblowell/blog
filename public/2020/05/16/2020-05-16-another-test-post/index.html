@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Another test post &middot; Jake Lowell</title>
+        <meta name="description" content="https://airyards.com/baldwin_boxscores.html
+## [1] &quot;pbp_raw_2000-2019&quot; game_id, game_date, game_seconds_remaining, season_type, week,season,
+Separate Train and Test sets ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 596 ## 2 2002 626 ## 3 2003 731 ## 4 2004 850 ## 5 2005 840 ## 6 2006 844 ## 7 2007 803 ## 8 2008 852 ## 9 2009 842 ## 10 2010 841 ## 11 2011 887 ## 12 2012 846 ## 13 2013 937 ## 14 2014 916 ## 15 2015 870 ## 16 2016 970 ## 17 2017 851 ## 18 2018 937 ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 411 ## 2 2002 437 ## 3 2003 526 ## 4 2004 585 ## 5 2005 578 ## 6 2006 598 ## 7 2007 582 ## 8 2008 583 ## 9 2009 593 ## 10 2010 598 ## 11 2011 634 ## 12 2012 578 ## 13 2013 625 ## 14 2014 618 ## 15 2015 605 ## 16 2016 625 ## 17 2017 571 ## 18 2018 614 ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 259 ## 2 2002 258 ## 3 2003 337 ## 4 2004 368 ## 5 2005 370 ## 6 2006 386 ## 7 2007 358 ## 8 2008 364 ## 9 2009 375 ## 10 2010 377 ## 11 2011 391 ## 12 2012 347 ## 13 2013 395 ## 14 2014 382 ## 15 2015 359 ## 16 2016 377 ## 17 2017 350 ## 18 2018 378 ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 31 ## 2 2002 37 ## 3 2003 55 ## 4 2004 48 ## 5 2005 49 ## 6 2006 40 ## 7 2007 42 ## 8 2008 50 ## 9 2009 66 ## 10 2010 45 ## 11 2011 37 ## 12 2012 39 ## 13 2013 63 ## 14 2014 51 ## 15 2015 55 ## 16 2016 45 ## 17 2017 44 ## 18 2018 62 I am using data from the nflscrapR package to investigate offensive success on goal to go situations on different downs.">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.67.1" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Another test post">
+<meta property="og:description" content="https://airyards.com/baldwin_boxscores.html
+## [1] &quot;pbp_raw_2000-2019&quot; game_id, game_date, game_seconds_remaining, season_type, week,season,
+Separate Train and Test sets ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 596 ## 2 2002 626 ## 3 2003 731 ## 4 2004 850 ## 5 2005 840 ## 6 2006 844 ## 7 2007 803 ## 8 2008 852 ## 9 2009 842 ## 10 2010 841 ## 11 2011 887 ## 12 2012 846 ## 13 2013 937 ## 14 2014 916 ## 15 2015 870 ## 16 2016 970 ## 17 2017 851 ## 18 2018 937 ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 411 ## 2 2002 437 ## 3 2003 526 ## 4 2004 585 ## 5 2005 578 ## 6 2006 598 ## 7 2007 582 ## 8 2008 583 ## 9 2009 593 ## 10 2010 598 ## 11 2011 634 ## 12 2012 578 ## 13 2013 625 ## 14 2014 618 ## 15 2015 605 ## 16 2016 625 ## 17 2017 571 ## 18 2018 614 ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 259 ## 2 2002 258 ## 3 2003 337 ## 4 2004 368 ## 5 2005 370 ## 6 2006 386 ## 7 2007 358 ## 8 2008 364 ## 9 2009 375 ## 10 2010 377 ## 11 2011 391 ## 12 2012 347 ## 13 2013 395 ## 14 2014 382 ## 15 2015 359 ## 16 2016 377 ## 17 2017 350 ## 18 2018 378 ## # A tibble: 18 x 2 ## season n ## &lt;dbl&gt; &lt;int&gt; ## 1 2001 31 ## 2 2002 37 ## 3 2003 55 ## 4 2004 48 ## 5 2005 49 ## 6 2006 40 ## 7 2007 42 ## 8 2008 50 ## 9 2009 66 ## 10 2010 45 ## 11 2011 37 ## 12 2012 39 ## 13 2013 63 ## 14 2014 51 ## 15 2015 55 ## 16 2016 45 ## 17 2017 44 ## 18 2018 62 I am using data from the nflscrapR package to investigate offensive success on goal to go situations on different downs.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/2020/05/16/2020-05-16-another-test-post/">
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+    </head>
+    <body>
+        
+<script type="application/javascript">
+var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+var doNotTrack = (dnt == "1" || dnt == "yes");
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-163416155-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Jake Lowell - Blog" href="/">Jake Lowell - Blog</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/lowell_jacob">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/jacoblowell">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://www.linkedin.com/in/jacob-lowell-47809712b/">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:jakelowell@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Blog" href="/">Blog</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Another test post</h1>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2020-05-16" itemprop="datePublished">Sat, May 16, 2020</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://google.com/&#43;XXX" itemprop="url" rel="author">Jake</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    
+
+
+<p><a href="https://airyards.com/baldwin_boxscores.html" class="uri">https://airyards.com/baldwin_boxscores.html</a></p>
+<pre><code>## [1] &quot;pbp_raw_2000-2019&quot;</code></pre>
+<p>game_id, game_date, game_seconds_remaining, season_type, week,season,</p>
+<div id="separate-train-and-test-sets" class="section level2">
+<h2>Separate Train and Test sets</h2>
+<p><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
+<pre><code>## # A tibble: 18 x 2
+##    season     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1   2001   596
+##  2   2002   626
+##  3   2003   731
+##  4   2004   850
+##  5   2005   840
+##  6   2006   844
+##  7   2007   803
+##  8   2008   852
+##  9   2009   842
+## 10   2010   841
+## 11   2011   887
+## 12   2012   846
+## 13   2013   937
+## 14   2014   916
+## 15   2015   870
+## 16   2016   970
+## 17   2017   851
+## 18   2018   937</code></pre>
+<pre><code>## # A tibble: 18 x 2
+##    season     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1   2001   411
+##  2   2002   437
+##  3   2003   526
+##  4   2004   585
+##  5   2005   578
+##  6   2006   598
+##  7   2007   582
+##  8   2008   583
+##  9   2009   593
+## 10   2010   598
+## 11   2011   634
+## 12   2012   578
+## 13   2013   625
+## 14   2014   618
+## 15   2015   605
+## 16   2016   625
+## 17   2017   571
+## 18   2018   614</code></pre>
+<pre><code>## # A tibble: 18 x 2
+##    season     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1   2001   259
+##  2   2002   258
+##  3   2003   337
+##  4   2004   368
+##  5   2005   370
+##  6   2006   386
+##  7   2007   358
+##  8   2008   364
+##  9   2009   375
+## 10   2010   377
+## 11   2011   391
+## 12   2012   347
+## 13   2013   395
+## 14   2014   382
+## 15   2015   359
+## 16   2016   377
+## 17   2017   350
+## 18   2018   378</code></pre>
+<pre><code>## # A tibble: 18 x 2
+##    season     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1   2001    31
+##  2   2002    37
+##  3   2003    55
+##  4   2004    48
+##  5   2005    49
+##  6   2006    40
+##  7   2007    42
+##  8   2008    50
+##  9   2009    66
+## 10   2010    45
+## 11   2011    37
+## 12   2012    39
+## 13   2013    63
+## 14   2014    51
+## 15   2015    55
+## 16   2016    45
+## 17   2017    44
+## 18   2018    62</code></pre>
+<p>I am using data from the <a href="https://arxiv.org/abs/1802.00998">nflscrapR</a> package to investigate offensive success on goal to go situations on different downs. I will perform exploratory data analysis and modeling on regular season game data from 2009-2018, and test the performance on 2019 regular season data.</p>
+</div>
+<div id="section-1.-initial-analysis" class="section level1">
+<h1>Section 1. Initial Analysis</h1>
+<div id="figure-1." class="section level3">
+<h3>Figure 1.</h3>
+<p><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p>If we define success as a play with a positive value for excepted points added (epa), we can see a nice split in good/bad distribution for 3rd and 4th down. There is a decent split for second down as well.</p>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#euedmnwkho .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#euedmnwkho .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#euedmnwkho .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#euedmnwkho .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#euedmnwkho .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#euedmnwkho .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#euedmnwkho .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#euedmnwkho .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#euedmnwkho .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#euedmnwkho .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#euedmnwkho .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#euedmnwkho .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#euedmnwkho .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#euedmnwkho .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#euedmnwkho .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#euedmnwkho .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#euedmnwkho .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#euedmnwkho .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#euedmnwkho .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#euedmnwkho .gt_left {
+  text-align: left;
+}
+
+#euedmnwkho .gt_center {
+  text-align: center;
+}
+
+#euedmnwkho .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#euedmnwkho .gt_font_normal {
+  font-weight: normal;
+}
+
+#euedmnwkho .gt_font_bold {
+  font-weight: bold;
+}
+
+#euedmnwkho .gt_font_italic {
+  font-style: italic;
+}
+
+#euedmnwkho .gt_super {
+  font-size: 65%;
+}
+
+#euedmnwkho .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="euedmnwkho" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="5" class="gt_heading gt_title gt_font_normal" style>Goal to goal Results</th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">down</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Touchdown Rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Success Rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mean Expected Points Added</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Median Expected Points Added</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right">27.9&percnt;</td>
+      <td class="gt_row gt_right">44.0&percnt;</td>
+      <td class="gt_row gt_right">0.07</td>
+      <td class="gt_row gt_right">-0.10</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2</td>
+      <td class="gt_row gt_right">32.9&percnt;</td>
+      <td class="gt_row gt_right">41.6&percnt;</td>
+      <td class="gt_row gt_right">0.07</td>
+      <td class="gt_row gt_right">-0.38</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">3</td>
+      <td class="gt_row gt_right">36.6&percnt;</td>
+      <td class="gt_row gt_right">38.4&percnt;</td>
+      <td class="gt_row gt_right">-0.19</td>
+      <td class="gt_row gt_right">-0.91</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">4</td>
+      <td class="gt_row gt_right">44.4&percnt;</td>
+      <td class="gt_row gt_right">44.6&percnt;</td>
+      <td class="gt_row gt_right">0.15</td>
+      <td class="gt_row gt_right">-2.26</td>
+    </tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="5">Source: nflfastR</td>
+    </tr>
+  </tfoot>
+  
+</table></div>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#qahvlmnysn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qahvlmnysn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qahvlmnysn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qahvlmnysn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qahvlmnysn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qahvlmnysn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qahvlmnysn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qahvlmnysn .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qahvlmnysn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qahvlmnysn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qahvlmnysn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qahvlmnysn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qahvlmnysn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qahvlmnysn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#qahvlmnysn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qahvlmnysn .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qahvlmnysn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#qahvlmnysn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qahvlmnysn .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#qahvlmnysn .gt_left {
+  text-align: left;
+}
+
+#qahvlmnysn .gt_center {
+  text-align: center;
+}
+
+#qahvlmnysn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qahvlmnysn .gt_font_normal {
+  font-weight: normal;
+}
+
+#qahvlmnysn .gt_font_bold {
+  font-weight: bold;
+}
+
+#qahvlmnysn .gt_font_italic {
+  font-style: italic;
+}
+
+#qahvlmnysn .gt_super {
+  font-size: 65%;
+}
+
+#qahvlmnysn .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="qahvlmnysn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="5" class="gt_heading gt_title gt_font_normal" style>Goal to goal Results</th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">down</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Touchdown Rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Success Rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mean Expected Points Added</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Median Expected Points Added</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_right">1</td>
+      <td class="gt_row gt_right">28.8&percnt;</td>
+      <td class="gt_row gt_right">43.8&percnt;</td>
+      <td class="gt_row gt_right">0.07</td>
+      <td class="gt_row gt_right">-0.10</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2</td>
+      <td class="gt_row gt_right">32.8&percnt;</td>
+      <td class="gt_row gt_right">42.0&percnt;</td>
+      <td class="gt_row gt_right">0.10</td>
+      <td class="gt_row gt_right">-0.38</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">3</td>
+      <td class="gt_row gt_right">38.0&percnt;</td>
+      <td class="gt_row gt_right">40.4&percnt;</td>
+      <td class="gt_row gt_right">-0.11</td>
+      <td class="gt_row gt_right">-0.85</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">4</td>
+      <td class="gt_row gt_right">49.0&percnt;</td>
+      <td class="gt_row gt_right">51.9&percnt;</td>
+      <td class="gt_row gt_right">0.61</td>
+      <td class="gt_row gt_right">3.04</td>
+    </tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="5">Source: nflfastR</td>
+    </tr>
+  </tfoot>
+  
+</table></div>
+</div>
+<div id="plot-td-rate-and-success-rate-over-time" class="section level2">
+<h2>plot td rate and success rate over time</h2>
+<pre><code>## # A tibble: 4 x 5
+##    down `Touchdown Rate` `Success Rate` `Mean Expected Poin… `Median Expected P…
+##   &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;                &lt;dbl&gt;               &lt;dbl&gt;
+## 1     1            0.279          0.44                  0.07               -0.1 
+## 2     2            0.329          0.416                 0.07               -0.38
+## 3     3            0.366          0.384                -0.19               -0.91
+## 4     4            0.444          0.446                 0.15               -2.26</code></pre>
+<p><img src="/post/2020-05-16-another-test-post_files/figure-html/td_rate_over_time-1.png" width="672" /></p>
+<p><img src="/post/2020-05-16-another-test-post_files/figure-html/succes_rate_over_time-1.png" width="672" /><img src="/post/2020-05-16-another-test-post_files/figure-html/succes_rate_over_time-2.png" width="672" /></p>
+</div>
+</div>
+<div id="a-no-play-can-be-successful-due-to-a-penalty-but-can-success-be-predicted-on-no_plays" class="section level1">
+<h1>a no play can be successful due to a penalty, but can success be predicted on no_plays?</h1>
+<p><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-13-1.png" width="672" /><img src="/post/2020-05-16-another-test-post_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+</div>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Another%20test%20post&url=%2f2020%2f05%2f16%2f2020-05-16-another-test-post%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2020%2f05%2f16%2f2020-05-16-another-test-post%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+        
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Another%20test%20post&url=%2f2020%2f05%2f16%2f2020-05-16-another-test-post%2f&summary="
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;">
+               <i class="fa fa-linkedin"></i>
+               <span class="hidden">LinkedIn</span>
+            </a>
+        
+    </div>
+</footer>
+
+        
+    <div class="comments">
+        
+    </div>
+
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Jake Lowell - Blog" href="/">Jake Lowell - Blog</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2020 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
+
